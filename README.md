@@ -1,6 +1,6 @@
-# CS370-Cycle-1
+# CS370 Cycle 1
 
-Collaborative repository for CS370 - Software Engineering's Q1 Architecture Spike. 
+Collaborative repository for CS370 - Software Engineering's Cycle 1
 
 ## Requirements 
 1. Git
