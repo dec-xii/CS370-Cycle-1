@@ -3,6 +3,7 @@ import input
 import sprites
 
 fps = 60
+SCREENRECT = pg.Rect(0, 0, 1920, 1080)
 
 
 def movement(x, input):
@@ -33,8 +34,11 @@ class Game:
         self.running = False
         self.input = input.Input()
         self.screen = pg.display.set_mode((1920, 1080))
+        self.fullscreen = False
         self.clock = pg.time.Clock()
         self.deltaTime = 0
+        self.winstyle = 0  # |FULLSCREEN
+        self.bestdepth = pg.display.mode_ok(SCREENRECT.size, self.winstyle, 32)
 
     # Initialize
     def start(self):
@@ -51,6 +55,29 @@ class Game:
         for e in pg.event.get():
             if e.type == pg.QUIT:
                 self.running = False
+            if e.type == pg.KEYDOWN:
+                if e.key == pg.K_ESCAPE:
+                    self.running = False
+                # Code for changing to fullscreen adapted from:
+                # https://github.com/pygame/pygame/blob/main/examples/aliens.py
+                if e.key == pg.K_f:
+                    if not self.fullscreen:
+                        print("Changing to FULLSCREEN")
+                        screen_backup = self.screen.copy()
+                        self.screen = pg.display.set_mode(
+                            SCREENRECT.size, self.winstyle |
+                            pg.FULLSCREEN, self.bestdepth
+                        )
+                        self.screen.blit(screen_backup, (0, 0))
+                    else:
+                        print("Changing to windowed mode")
+                        screen_backup = self.screen.copy()
+                        self.screen = pg.display.set_mode(
+                            SCREENRECT.size, self.winstyle, self.bestdepth
+                        )
+                        self.screen.blit(screen_backup, (0, 0))
+                    pg.display.flip()
+                    self.fullscreen = not self.fullscreen
         self.input.update()
 
     def update(self):
