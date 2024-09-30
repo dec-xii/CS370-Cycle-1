@@ -1,12 +1,23 @@
 import pygame as pg
+import input
 import sprites
 
 fps = 60
 
 
-def movement(x):
-    # x.rect[0] = x.rect[0] + 1
-    # x.rect[1] = x.rect[1] + 1
+def movement(x, input):
+    if input.is_pressed(pg.K_d):
+        x.velocity[0] += 1
+    if input.is_pressed(pg.K_a):
+        x.velocity[0] -= 1
+    if input.is_pressed(pg.K_s):
+        x.velocity[1] += 1
+    if input.is_pressed(pg.K_w):
+        x.velocity[1] -= 1
+
+    x.rect[0] += x.velocity[0]
+    x.rect[1] += x.velocity[1]
+
     return x
 
 
@@ -17,6 +28,7 @@ class Game:
     def start(self):
         self.running = True
         pg.init()
+        self.input = input.Input()
         self.screen = pg.display.set_mode((1920, 1080))
         self.clock = pg.time.Clock()
         self.deltaTime = 0
@@ -29,9 +41,10 @@ class Game:
         for e in pg.event.get():
             if e.type == pg.QUIT:
                 self.running = False
+        self.input.update()
 
     def update(self):
-        self.player.update(self.deltaTime)
+        self.player.update(self.deltaTime, self.input)
         self.deltaTime = self.clock.tick(fps) / 1000
 
     def render(self):

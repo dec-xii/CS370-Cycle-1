@@ -15,6 +15,7 @@ class Sprite(pg.sprite.Sprite):
             self.image = pg.Surface([100, 100])
             self.image.fill("Purple")
 
+        self.velocity = [0, 0]
         self.frame_timer = 0
         self.deltaTime = 0
         self.rect = size
@@ -30,14 +31,14 @@ class Sprite(pg.sprite.Sprite):
                 frames.append(sheet.subsurface(pg.Rect(location, size)))
         return frames
 
-    def update(self, deltaTime):
+    def update(self, deltaTime, input):
         # Update the sprite location
         if self.move:
-            self = self.move(self)
+            self = self.move(self, input)
         self.next_frame(deltaTime)
 
     def next_frame(self, deltaTime):
-        if self.frame_timer > fps / 60:
+        if self.frame_timer > fps / 6:
             if self.frame < len(self.images) - 1:
                 self.frame += 1
             else:
@@ -45,4 +46,4 @@ class Sprite(pg.sprite.Sprite):
             self.frame_timer = 0
         else:
             self.frame_timer += deltaTime * 100
-        self.image = self.images[self.frame]
+        self.image = pg.transform.scale_by(self.images[self.frame], 5)
