@@ -1,28 +1,39 @@
 import pygame as pg
+import os
+
 fps = 60
 
 
 class Sprite(pg.sprite.Sprite):
     def __init__(self, sheet=None, start=[0, 0], size=[0, 0], columns=0, rows=0, controller=None):
+        # Call parent constructor
         pg.sprite.Sprite.__init__(self)
 
-        # Load spritesheet
-        if sheet:
+        # Load sprite
+        if os.path.exists(sheet):
+            # Load spritesheet
             self.images = self.load_sheet(pg.image.load(
                 sheet).convert_alpha(), start, size, columns, rows)
-        # Load blank rectangle
+            self.animated = True
+            self.image = self.images[0]
         else:
+            # Load blank rectangle
             self.image = pg.Surface([100, 100])
             self.image.fill("Purple")
+            self.animated = False
 
-        self.velocity = [0, 0]
-        self.frame_timer = 0
-        self.deltaTime = 0
+        # Animation
+        if self.animated:
+            self.frame = 0
+            self.frame_timer = 0
+            self.deltaTime = 0
+
+        # Movement
         self.rect = size
-        self.frame = 0
-        self.image = self.images[0]
+        self.velocity = [0, 0]
         self.move = controller
 
+    # Load spritesheets
     def load_sheet(self, sheet, start, size, columns, rows=1):
         frames = []
         for j in range(rows):
@@ -35,9 +46,11 @@ class Sprite(pg.sprite.Sprite):
         # Update the sprite location
         if self.move:
             self = self.move(self, input)
-        self.next_frame(deltaTime)
+        if self.animated:
+            self.next_frame(deltaTime)
 
     def next_frame(self, deltaTime):
+        # Update frame fps interval
         if self.frame_timer > fps / 6:
             if self.frame < len(self.images) - 1:
                 self.frame += 1
