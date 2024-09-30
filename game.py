@@ -1,10 +1,12 @@
 import pygame as pg
 import sprites
 
+fps = 60
+
 
 def movement(x):
-    x.rect[0] = x.rect[0] + 1
-    x.rect[1] = x.rect[1] + 1
+    # x.rect[0] = x.rect[0] + 1
+    # x.rect[1] = x.rect[1] + 1
     return x
 
 
@@ -17,9 +19,10 @@ class Game:
         pg.init()
         self.screen = pg.display.set_mode((1920, 1080))
         self.clock = pg.time.Clock()
+        self.deltaTime = 0
 
-        self.player = sprites.Sprite(
-            "red", 100, 100, movement)
+        self.player = sprites.Sprite("Knight.png", [0, 0], [
+                                     32, 32], 13, 1, controller=movement)
         self.sprites = pg.sprite.RenderPlain(self.player)
 
     def event(self):
@@ -28,7 +31,8 @@ class Game:
                 self.running = False
 
     def update(self):
-        self.player.update()
+        self.player.update(self.deltaTime)
+        self.deltaTime = self.clock.tick(fps) / 1000
 
     def render(self):
         self.screen.fill("black")
