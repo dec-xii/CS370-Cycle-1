@@ -14,6 +14,7 @@ class Sprite(pg.sprite.Sprite):
         else:
             self.image = pg.Surface([100, 100])
             self.image.fill("Purple")
+            self.images = [self.image]
 
         self.velocity = [0, 0]
         self.frame_timer = 0
@@ -21,6 +22,9 @@ class Sprite(pg.sprite.Sprite):
         self.rect = size
         self.frame = 0
         self.image = self.images[0]
+        
+        # Set self.rect as a pygame.Rect object using start and size
+        self.rect = pg.Rect(start[0], start[1], size[0], size[1])
         self.move = controller
 
     def load_sheet(self, sheet, start, size, columns, rows=1):
