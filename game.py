@@ -1,6 +1,7 @@
 import pygame as pg
 import input
 import sprites
+from rooms import load_rooms
 
 fps = 60
 SCREENRECT = pg.Rect(0, 0, 1920, 1080)
@@ -31,6 +32,8 @@ def movement(x, input):
 class Game:
     def __init__(self):
         pg.init()
+        self.x, self.y = 500, 500  # Initial position of the player
+        self.speed = 5  # Player movement speed
         self.running = False
         self.input = input.Input()
         self.screen = pg.display.set_mode((1920, 1080))
@@ -50,6 +53,10 @@ class Game:
         # Load background, this will be moved to Environment load function
         self.bg = pg.image.load("CS370_Room_Art.png")
         self.bg = pg.transform.scale(self.bg, (1920, 1080))
+
+        # Load rooms using the load_rooms function
+        self.rooms = load_rooms()
+        self.current_room = self.rooms[1]  # Start in Room 1
 
     def event(self):
         for e in pg.event.get():
@@ -84,9 +91,20 @@ class Game:
         self.player.update(self.deltaTime, self.input)
         self.deltaTime = self.clock.tick(fps) / 1000
 
+        # Player's hitbox for collision detection
+        player_rect = self.player.rect.copy()  # Get the player's rectangle
+        # Ensure the rect reflects the player's position
+        player_rect.topleft = (self.player.rect.x, self.player.rect.y)
+
+        # Check for collision with a door in the current room
+        next_room = self.current_room.check_collision(player_rect)
+        if next_room:
+            self.current_room = self.rooms[next_room]  # Switch to the new room
+
     def render(self):
         self.screen.fill("black")
         self.screen.blit(self.bg, (0, 0))
+        self.current_room.draw(self.screen)
         self.sprites.draw(self.screen)
         pg.display.flip()
 

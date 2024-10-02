@@ -29,8 +29,9 @@ class Sprite(pg.sprite.Sprite):
             self.deltaTime = 0
 
         # Movement
-        self.rect = size
         self.velocity = [0, 0]
+        # Set self.rect as a pygame.Rect object using start and size
+        self.rect = pg.Rect(start[0], start[1], size[0], size[1])
         self.move = controller
 
     # Load spritesheets
