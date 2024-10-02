@@ -34,7 +34,7 @@ class Room:
 def load_rooms():
     # Define doors as rectangles with a destination room ID
     # Door to Room 2
-    room1_doors = [{"rect": pg.Rect(1800, 500, 50, 100), "target_room": 2}]
+    room1_doors = [{"rect": pg.Rect(830, 475, 200, 200), "target_room": 2}]
     # Door back to Room 1
     room2_doors = [{"rect": pg.Rect(100, 500, 50, 100), "target_room": 1}]
 

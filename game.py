@@ -1,32 +1,10 @@
 import pygame as pg
 import input
-import sprites
+import player
 from rooms import load_rooms
 
 fps = 60
 SCREENRECT = pg.Rect(0, 0, 1920, 1080)
-
-
-def movement(x, input):
-    # Movement incrementers
-    if input.is_pressed(pg.K_d):
-        x.velocity[0] += 1
-    if input.is_pressed(pg.K_a):
-        x.velocity[0] -= 1
-    if input.is_pressed(pg.K_s):
-        x.velocity[1] += 1
-    if input.is_pressed(pg.K_w):
-        x.velocity[1] -= 1
-
-    # Acceleration
-    x.rect[0] += x.velocity[0]
-    x.rect[1] += x.velocity[1]
-
-    # Friction
-    x.velocity[0] -= x.velocity[0] * 0.1
-    x.velocity[1] -= x.velocity[1] * 0.1
-
-    return x
 
 
 class Game:
@@ -46,8 +24,7 @@ class Game:
     # Initialize
     def start(self):
         self.running = True
-        self.player = sprites.Sprite("Knight.png", [0, 0], [
-                                     32, 32], 13, 1, controller=movement)
+        self.player = player.player()
         self.sprites = pg.sprite.RenderPlain(self.player)
 
         # Load background, this will be moved to Environment load function
