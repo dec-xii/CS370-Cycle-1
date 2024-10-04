@@ -5,7 +5,7 @@ fps = 60
 
 
 class Sprite(pg.sprite.Sprite):
-    def __init__(self, sheet=None, start=[0, 0], size=[0, 0], columns=0, states=[], rows=0, controller=None):
+    def __init__(self, sheet=None, start=[0, 0], size=[0, 0], columns=0, controller=None):
         # Call parent constructor
         pg.sprite.Sprite.__init__(self)
 
@@ -13,8 +13,8 @@ class Sprite(pg.sprite.Sprite):
         if os.path.exists(sheet):
             # Load spritesheet
             self.states = self.load_sheet(pg.image.load(
-                sheet).convert_alpha(), start, size, columns, states, rows)
-            self.state = "idle"
+                sheet).convert_alpha(), start, size, columns)
+            self.state = 0
             self.images = self.states[self.state]
             self.image = self.images[0]
             self.rect = self.image.get_rect()
@@ -31,6 +31,7 @@ class Sprite(pg.sprite.Sprite):
             self.frame = 0
             self.frame_timer = 0
             self.deltaTime = 0
+            self.flip = False
 
         # Movement
         self.velocity = pg.Vector2(0, 0)
@@ -38,14 +39,14 @@ class Sprite(pg.sprite.Sprite):
         self.move = controller
 
     # Load spritesheets
-    def load_sheet(self, sheet, start, size, columns, states, rows=1):
+    def load_sheet(self, sheet, start, size, columns):
         arr = []
-        frames = {}
-        for j in range(rows):
+        frames = []
+        for j in range(len(columns)):
             for i in range(columns[j]):
                 location = (start[0]+size[0]*i, start[1]+size[1]*j)
                 arr.append(sheet.subsurface(pg.Rect(location, size)))
-            frames[states[j]] = arr.copy()
+            frames.append(arr.copy())
             arr.clear()
         return frames
 
@@ -73,3 +74,4 @@ class Sprite(pg.sprite.Sprite):
         else:
             self.frame_timer += deltaTime * 100
         self.image = pg.transform.scale_by(self.images[self.frame], 5)
+        self.image = pg.transform.flip(self.image, self.flip, False)
