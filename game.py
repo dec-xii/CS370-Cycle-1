@@ -18,6 +18,15 @@ def movement(x, input):
     # Update the position using pg.Rect (x.rect is a pg.Rect now)
     x.rect.x += x.velocity[0]
     x.rect.y += x.velocity[1]
+    
+    if not input.is_pressed(pg.K_d):
+        x.velocity[0]
+    if not input.is_pressed(pg.K_a):
+        x.velocity[0]
+    if not input.is_pressed(pg.K_s):
+        x.velocity[1]
+    if not input.is_pressed(pg.K_w):
+        x.velocity[1]
 
     return x
 
