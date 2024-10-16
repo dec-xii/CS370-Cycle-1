@@ -41,7 +41,7 @@ def load_rooms():
     room2_doors = [{"rect": pg.Rect(100, 500, 50, 100), "target_room": 1}]  # Door back to Room 1
 
     # Define room items
-    room1_items = []  # Empty room for now
+    room1_items = []  
     # A white square object in Room 2
     room2_items = [pg.Rect(400, 400, 50, 50)]
 

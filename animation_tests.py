@@ -5,7 +5,7 @@ from player import States
 class Tests:
 
     def run_animation_test(player):
-        # Debugging: Check the current state and position of the player
+        # Check the current state and position of the player
         if player.state == States.WALK:
             print("Debug: Walking")
         else:
