@@ -22,9 +22,9 @@ class Game:
         self.deltaTime = 0
         self.winstyle = 0  # |FULLSCREEN
         self.bestdepth = pg.display.mode_ok(SCREENRECT.size, self.winstyle, 32)
-        
 
     # Initialize
+
     def start(self):
         self.running = True
         self.player = player.player()
@@ -80,14 +80,11 @@ class Game:
         next_room = self.current_room.check_collision(player_rect)
         if next_room:
             self.current_room = self.rooms[next_room]  # Switch to the new room
-            
+
         # Call the animation test function
         Tests.run_animation_test(self.player)
-                   
 
     def render(self):
-        self.screen.fill("black")
-        self.screen.blit(self.bg, (0, 0))
         self.current_room.draw(self.screen)
         self.sprites.draw(self.screen)
         pg.display.flip()
