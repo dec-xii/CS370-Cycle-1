@@ -57,4 +57,8 @@ def player():
     start = [0, 0]
     size = [32, 32]
     frame_data = [13, 8, 10, 10, 10]
-    return sprites.Sprite(States.IDLE, file, start, size, frame_data, controller)
+    sprite = sprites.Sprite(States.IDLE, file, start,
+                            size, frame_data, controller)
+    sprite.rect.center = (700, 700)
+    sprite.scale_by(5)
+    return sprite

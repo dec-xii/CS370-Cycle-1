@@ -34,6 +34,8 @@ class Sprite(pg.sprite.Sprite):
             self.flip = False
             self.complete = False
 
+        self.scale = 1
+
         # Movement
         self.velocity = pg.Vector2(0, 0)
         # Set self.rect as a pygame.Rect object using start and size
@@ -58,6 +60,10 @@ class Sprite(pg.sprite.Sprite):
         if self.animated:
             self.next_frame(deltaTime)
 
+    def scale_by(self, scale):
+        self.scale = scale
+        self.rect = self.rect.scale_by(scale)
+
     def set_state(self, state):
         if not self.state == state:
             self.images = self.states[state.value]
@@ -76,5 +82,5 @@ class Sprite(pg.sprite.Sprite):
             self.frame_timer = 0
         else:
             self.frame_timer += deltaTime * 100
-        self.image = pg.transform.scale_by(self.images[self.frame], 5)
+        self.image = pg.transform.scale_by(self.images[self.frame], self.scale)
         self.image = pg.transform.flip(self.image, self.flip, False)

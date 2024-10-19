@@ -1,6 +1,7 @@
 import pygame as pg
 import input
 import player
+import npcs
 from player import States
 from rooms import load_rooms
 from animation_tests import Tests
@@ -28,7 +29,8 @@ class Game:
     def start(self):
         self.running = True
         self.player = player.player()
-        self.sprites = pg.sprite.RenderPlain(self.player)
+        self.NPCs = npcs.spawn()
+        self.sprites = pg.sprite.RenderPlain(self.player, self.NPCs)
 
         # Load background, this will be moved to Environment load function
         self.bg = pg.image.load("CS370_Room_Art.png")
@@ -69,6 +71,7 @@ class Game:
 
     def update(self):
         self.player.update(self.deltaTime, self.input)
+        self.NPCs.update(self.deltaTime, self.input)
         self.deltaTime = self.clock.tick(fps) / 1000
 
         # Player's hitbox for collision detection
