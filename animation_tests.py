@@ -12,4 +12,4 @@ class Tests:
             print("Debug: Idle")
 
         # Print the player's position
-        print(f"Debug: Player Position: {player.rect.topleft}") 
+        #print(f"Debug: Player Position: {player.rect.topleft}") 

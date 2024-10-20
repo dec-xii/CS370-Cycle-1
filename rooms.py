@@ -1,13 +1,15 @@
 # room.py
 import pygame as pg
+from player import controller
 
-
+ACCEL = 3
 class Room:
-    def __init__(self, room_id, doors, items, backgrounds):
+    def __init__(self, room_id, doors, items, backgrounds, collider_rect):
         self.room_id = room_id
         self.doors = doors  # List of door objects with positions and destinations
         self.items = items  # List of items specific to the room
         self.background = backgrounds
+        self.collider_rect = collider_rect
 
     def draw(self, screen):
         # Draw all items and doors in the room
@@ -34,6 +36,20 @@ class Room:
                 return door["target_room"]
             else:
                 door["color"] = "blue"  # Reset color if no collision
+                
+            
+        # Check if player is outside room bounds
+        if not self.collider_rect.contains(player_rect):
+            if player_rect.left < self.collider_rect.left:
+                player_rect.left = self.collider_rect.left
+            if player_rect.right > self.collider_rect.right:
+                player_rect.right = self.collider_rect.right
+            if player_rect.top < self.collider_rect.top:
+                player_rect.top = self.collider_rect.top
+            if player_rect.bottom > self.collider_rect.bottom:
+                player_rect.bottom = self.collider_rect.bottom
+            print("Player is out of bounds!")
+            
         return None
 
 
@@ -48,6 +64,9 @@ def load_rooms():
 
     bg2 = pg.image.load("CS370_Room_Art2.png")
     bg2 = pg.transform.scale(bg2, (1920, 1080))
+    
+    room1_collider = pg.Rect(100, 700, 1720, 300)
+    room2_collider = pg.Rect(0, 0, 1920, 1080)
 
     # Door back to Room 1
     room2_doors = [{"rect": pg.Rect(
@@ -59,8 +78,8 @@ def load_rooms():
     room2_items = [pg.Rect(400, 700, 50, 50)]
 
     # Create the rooms
-    room1 = Room(1, room1_doors, room1_items, bg1)
-    room2 = Room(2, room2_doors, room2_items, bg2)
+    room1 = Room(1, room1_doors, room1_items, bg1, room1_collider)
+    room2 = Room(2, room2_doors, room2_items, bg2, room2_collider)
 
     # Return rooms as a dictionary
     return {1: room1, 2: room2}
