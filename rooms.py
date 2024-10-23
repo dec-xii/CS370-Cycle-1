@@ -57,7 +57,7 @@ def load_rooms():
     # Define doors as rectangles with a destination room ID
     # Door to Room 2
     room1_doors = [{"rect": pg.Rect(
-        830, 475, 200, 200), "target_room": 2}]
+        830, 500, 250, 300), "target_room": 2}]
 
     bg1 = pg.image.load("CS370_Room_Art.png")
     bg1 = pg.transform.scale(bg1, (1920, 1080))
@@ -66,7 +66,7 @@ def load_rooms():
     bg2 = pg.transform.scale(bg2, (1920, 1080))
     
     room1_collider = pg.Rect(100, 700, 1720, 300)
-    room2_collider = pg.Rect(0, 0, 1920, 1080)
+    room2_collider = pg.Rect(-100, 550, 1950, 500)
 
     # Door back to Room 1
     room2_doors = [{"rect": pg.Rect(
