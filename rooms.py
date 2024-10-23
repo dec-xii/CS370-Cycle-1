@@ -65,21 +65,33 @@ def load_rooms():
     bg2 = pg.image.load("CS370_Room_Art2.png")
     bg2 = pg.transform.scale(bg2, (1920, 1080))
     
+    bg3 = pg.image.load("CafeArt.png")
+    bg3 = pg.transform.scale(bg3, (1920, 1080))
+    
     room1_collider = pg.Rect(100, 700, 1720, 300)
     room2_collider = pg.Rect(-100, 550, 1950, 500)
+    room3_collider = pg.Rect(-100, 550, 1950, 500)
 
     # Door back to Room 1
     room2_doors = [{"rect": pg.Rect(
-        830, 1000, 200, 50), "target_room": 1}]
+        830, 1000, 200, 50), "target_room": 1},
+                   {"rect": pg.Rect(
+        1850, 800, 200, 200), "target_room": 3}]
+    
+    room3_doors = [{"rect": pg.Rect(
+        -100, 1000, 200, 200), "target_room": 2}]
 
     # Define room items
     room1_items = []  
     # A white square object in Room 2
     room2_items = [pg.Rect(400, 700, 50, 50)]
+    room3_items = [pg.Rect(400, 700, 50, 50)]
 
     # Create the rooms
     room1 = Room(1, room1_doors, room1_items, bg1, room1_collider)
     room2 = Room(2, room2_doors, room2_items, bg2, room2_collider)
+    room3 = Room(3, room3_doors, room3_items, bg3, room3_collider)
+    
 
     # Return rooms as a dictionary
-    return {1: room1, 2: room2}
+    return {1: room1, 2: room2, 3: room3}
