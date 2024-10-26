@@ -6,9 +6,6 @@ ACCEL = 3
 FRICTION = 0.7
 
 
-# functional syntax
-# States = Enum('States', ['IDLE', 'WALK', 'ATTACK_1', 'ATTACK_2', 'ATTACK_3'])
-
 class States(Enum):
     IDLE = 0
     WALK = 1

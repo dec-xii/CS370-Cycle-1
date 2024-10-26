@@ -25,11 +25,10 @@ class Game:
         self.bestdepth = pg.display.mode_ok(SCREENRECT.size, self.winstyle, 32)
 
     # Initialize
-
     def start(self):
         self.running = True
         self.player = player.player()
-        self.NPCs = npcs.spawn()
+        self.NPCs = [npcs.spawn()]
         self.sprites = pg.sprite.RenderPlain(self.player, self.NPCs)
 
         # Load background, this will be moved to Environment load function
@@ -70,9 +69,15 @@ class Game:
         self.input.update()
 
     def update(self):
-        self.player.update(self.deltaTime, self.input)
-        self.NPCs.update(self.deltaTime, self.input)
         self.deltaTime = self.clock.tick(fps) / 1000
+        self.player.update(self.deltaTime, self.input)
+        # self.NPCs.update(self.deltaTime, self.input)
+        for npc in self.NPCs:
+            npc.update(self.deltaTime, self.input)
+            if pg.math.Vector2.distance_to(pg.Vector2(self.player.rect.center), pg.Vector2(npc.rect.center)) < 100:
+                npc.image.fill("yellow", special_flags=pg.BLEND_RGBA_MIN)
+                if self.input.mouse_state[0] and npc.rect.collidepoint(self.input.mouse_pos):
+                    npc.image.fill("green", special_flags=pg.BLEND_RGBA_MIN)
 
         # Player's hitbox for collision detection
         player_rect = self.player.rect.copy()  # Get the player's rectangle
@@ -85,7 +90,7 @@ class Game:
             self.current_room = self.rooms[next_room]  # Switch to the new room
 
         # Call the animation test function
-        Tests.run_animation_test(self.player)
+        # Tests.run_animation_test(self.player)
 
     def render(self):
         self.current_room.draw(self.screen)

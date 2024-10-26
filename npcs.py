@@ -3,9 +3,6 @@ import pygame as pg
 from enum import Enum
 import sprites
 
-ACCEL = 3
-FRICTION = 0.7
-
 
 class States(Enum):
     IDLE = 0

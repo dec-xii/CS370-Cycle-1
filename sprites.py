@@ -39,7 +39,7 @@ class Sprite(pg.sprite.Sprite):
         # Movement
         self.velocity = pg.Vector2(0, 0)
         # Set self.rect as a pygame.Rect object using start and size
-        self.move = controller
+        self.controller = controller
 
     # Load spritesheets
     def load_sheet(self, sheet, start, size, columns):
@@ -55,8 +55,8 @@ class Sprite(pg.sprite.Sprite):
 
     def update(self, deltaTime, input):
         # Update the sprite location
-        if self.move:
-            self = self.move(self, input)
+        if self.controller:
+            self = self.controller(self, input)
         if self.animated:
             self.next_frame(deltaTime)
 
