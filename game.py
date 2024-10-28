@@ -7,6 +7,7 @@ from animation_tests import Tests
 import inventory as inv
 import hud
 
+
 fps = 60
 SCREENRECT = pg.Rect(0, 0, 1920, 1080)
 
