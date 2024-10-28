@@ -1,0 +1,89 @@
+{ "frames": {
+   "CS370 Art 0.aseprite": {
+    "frame": { "x": 0, "y": 0, "w": 23, "h": 49 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 67, "y": 56, "w": 23, "h": 49 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 100
+   },
+   "CS370 Art 1.aseprite": {
+    "frame": { "x": 23, "y": 0, "w": 23, "h": 49 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 67, "y": 56, "w": 23, "h": 49 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 100
+   },
+   "CS370 Art 2.aseprite": {
+    "frame": { "x": 46, "y": 0, "w": 23, "h": 49 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 67, "y": 56, "w": 23, "h": 49 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 100
+   },
+   "CS370 Art 3.aseprite": {
+    "frame": { "x": 0, "y": 49, "w": 23, "h": 49 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 67, "y": 56, "w": 23, "h": 49 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 100
+   },
+   "CS370 Art 4.aseprite": {
+    "frame": { "x": 23, "y": 49, "w": 23, "h": 49 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 67, "y": 56, "w": 23, "h": 49 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 100
+   },
+   "CS370 Art 5.aseprite": {
+    "frame": { "x": 46, "y": 49, "w": 23, "h": 49 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 67, "y": 56, "w": 23, "h": 49 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 100
+   },
+   "CS370 Art 6.aseprite": {
+    "frame": { "x": 0, "y": 98, "w": 23, "h": 49 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 67, "y": 56, "w": 23, "h": 49 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 100
+   },
+   "CS370 Art 7.aseprite": {
+    "frame": { "x": 23, "y": 98, "w": 23, "h": 49 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 67, "y": 56, "w": 23, "h": 49 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 100
+   },
+   "CS370 Art 8.aseprite": {
+    "frame": { "x": 46, "y": 98, "w": 23, "h": 49 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 67, "y": 56, "w": 23, "h": 49 },
+    "sourceSize": { "w": 160, "h": 160 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.x-dev",
+  "format": "RGBA8888",
+  "size": { "w": 69, "h": 147 },
+  "scale": "1",
+  "frameTags": [
+  ],
+  "layers": [
+   { "name": "Layer 1", "opacity": 255, "blendMode": "normal" }
+  ],
+  "slices": [
+  ]
+ }
+}
