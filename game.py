@@ -5,6 +5,7 @@ from player import States
 from rooms import load_rooms
 from animation_tests import Tests
 import inventory as inv
+import hud
 
 fps = 60
 SCREENRECT = pg.Rect(0, 0, 1920, 1080)
@@ -24,6 +25,7 @@ class Game:
         self.winstyle = 0  # |FULLSCREEN
         self.bestdepth = pg.display.mode_ok(SCREENRECT.size, self.winstyle, 32)
         self.player_inventory=inv.inventory(10)
+        self.player_hud=hud.hud()
 
     # Initialize
 
@@ -89,6 +91,7 @@ class Game:
     def render(self):
         self.current_room.draw(self.screen)
         self.sprites.draw(self.screen)
+        self.player_hud.render(self.screen)
         pg.display.flip()
 
     def clean(self):
