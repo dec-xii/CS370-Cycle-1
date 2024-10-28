@@ -13,6 +13,9 @@ SCREENRECT = pg.Rect(0, 0, 1920, 1080)
 class Game:
     def __init__(self):
         pg.init()
+        self.font = pg.font.SysFont('Comic Sans MS', 30)
+        self.text_surface = self.font.render('', False, (0, 0, 0))
+
         self.x, self.y = 500, 500  # Initial position of the player
         self.speed = 5  # Player movement speed
         self.running = False
@@ -26,6 +29,8 @@ class Game:
 
     # Initialize
     def start(self):
+        pg.font.init()
+
         self.running = True
         self.player = player.player()
         self.NPCs = [npcs.spawn()]
@@ -78,6 +83,8 @@ class Game:
                 npc.image.fill("yellow", special_flags=pg.BLEND_RGBA_MIN)
                 if self.input.mouse_state[0] and npc.rect.collidepoint(self.input.mouse_pos):
                     npc.image.fill("green", special_flags=pg.BLEND_RGBA_MIN)
+                    self.text_surface = self.font.render(
+                        'This is a test', False, (255, 255, 255))
 
         # Player's hitbox for collision detection
         player_rect = self.player.rect.copy()  # Get the player's rectangle
@@ -95,6 +102,7 @@ class Game:
     def render(self):
         self.current_room.draw(self.screen)
         self.sprites.draw(self.screen)
+        self.screen.blit(self.text_surface, self.NPCs[0].rect.topleft)
         pg.display.flip()
 
     def clean(self):
