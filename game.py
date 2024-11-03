@@ -13,11 +13,7 @@ SCREENRECT = pg.Rect(0, 0, 1920, 1080)
 class Game:
     def __init__(self):
         pg.init()
-        self.font = pg.font.SysFont('Comic Sans MS', 30)
-        self.text_surface = self.font.render('', False, (0, 0, 0))
 
-        self.x, self.y = 500, 500  # Initial position of the player
-        self.speed = 5  # Player movement speed
         self.running = False
         self.input = input.Input()
         self.screen = pg.display.set_mode((1920, 1080))
@@ -77,14 +73,10 @@ class Game:
         self.deltaTime = self.clock.tick(fps) / 1000
         self.player.update(self.deltaTime, self.input)
         # self.NPCs.update(self.deltaTime, self.input)
+
         for npc in self.NPCs:
             npc.update(self.deltaTime, self.input)
-            if pg.math.Vector2.distance_to(pg.Vector2(self.player.rect.center), pg.Vector2(npc.rect.center)) < 100:
-                npc.image.fill("yellow", special_flags=pg.BLEND_RGBA_MIN)
-                if self.input.mouse_state[0] and npc.rect.collidepoint(self.input.mouse_pos):
-                    npc.image.fill("green", special_flags=pg.BLEND_RGBA_MIN)
-                    self.text_surface = self.font.render(
-                        'This is a test', False, (255, 255, 255))
+            npc.interact(self.player, self.input)
 
         # Player's hitbox for collision detection
         player_rect = self.player.rect.copy()  # Get the player's rectangle
@@ -102,7 +94,9 @@ class Game:
     def render(self):
         self.current_room.draw(self.screen)
         self.sprites.draw(self.screen)
-        self.screen.blit(self.text_surface, self.NPCs[0].rect.topleft)
+        for npc in self.NPCs:
+            npc.displayText(self.screen)
+
         pg.display.flip()
 
     def clean(self):
