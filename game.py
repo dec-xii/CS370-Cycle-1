@@ -1,9 +1,12 @@
 import pygame as pg
 import input
 import player
+import npcs
 from player import States
 from rooms import load_rooms
 from animation_tests import Tests
+import inventory as inv
+import hud
 
 fps = 60
 SCREENRECT = pg.Rect(0, 0, 1920, 1080)
@@ -12,8 +15,7 @@ SCREENRECT = pg.Rect(0, 0, 1920, 1080)
 class Game:
     def __init__(self):
         pg.init()
-        self.x, self.y = 500, 500  # Initial position of the player
-        self.speed = 5  # Player movement speed
+
         self.running = False
         self.input = input.Input()
         self.screen = pg.display.set_mode((1920, 1080))
@@ -22,13 +24,17 @@ class Game:
         self.deltaTime = 0
         self.winstyle = 0  # |FULLSCREEN
         self.bestdepth = pg.display.mode_ok(SCREENRECT.size, self.winstyle, 32)
+        self.player_inventory = inv.inventory(10)
+        self.player_hud = hud.hud()
 
     # Initialize
-
     def start(self):
+        pg.font.init()
+
         self.running = True
         self.player = player.player()
-        self.sprites = pg.sprite.RenderPlain(self.player)
+        self.NPCs = [npcs.spawn()]
+        self.sprites = pg.sprite.RenderPlain(self.player, self.NPCs)
 
         # Load background, this will be moved to Environment load function
         self.bg = pg.image.load("CS370_Room_Art.png")
@@ -68,8 +74,13 @@ class Game:
         self.input.update()
 
     def update(self):
-        self.player.update(self.deltaTime, self.input)
         self.deltaTime = self.clock.tick(fps) / 1000
+        self.player.update(self.deltaTime, self.input)
+        # self.NPCs.update(self.deltaTime, self.input)
+
+        for npc in self.NPCs:
+            npc.update(self.deltaTime, self.input)
+            npc.interact(self.player, self.input)
 
         # Player's hitbox for collision detection
         player_rect = self.player.rect.copy()  # Get the player's rectangle
@@ -77,16 +88,20 @@ class Game:
         player_rect.topleft = (self.player.rect.x, self.player.rect.y)
 
         # Check for collision with a door in the current room
-        next_room = self.current_room.check_collision(player_rect)
+        next_room = self.current_room.check_collision(self.player.rect)
         if next_room:
             self.current_room = self.rooms[next_room]  # Switch to the new room
 
         # Call the animation test function
-        Tests.run_animation_test(self.player)
+        # Tests.run_animation_test(self.player)
 
     def render(self):
         self.current_room.draw(self.screen)
         self.sprites.draw(self.screen)
+        for npc in self.NPCs:
+            npc.displayText(self.screen)
+
+        self.player_hud.render(self.screen)
         pg.display.flip()
 
     def clean(self):

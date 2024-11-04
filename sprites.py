@@ -34,10 +34,12 @@ class Sprite(pg.sprite.Sprite):
             self.flip = False
             self.complete = False
 
+        self.scale = 1
+
         # Movement
         self.velocity = pg.Vector2(0, 0)
         # Set self.rect as a pygame.Rect object using start and size
-        self.move = controller
+        self.controller = controller
 
     # Load spritesheets
     def load_sheet(self, sheet, start, size, columns):
@@ -53,10 +55,14 @@ class Sprite(pg.sprite.Sprite):
 
     def update(self, deltaTime, input):
         # Update the sprite location
-        if self.move:
-            self = self.move(self, input)
+        if self.controller:
+            self = self.controller(self, input)
         if self.animated:
             self.next_frame(deltaTime)
+
+    def scale_by(self, scale):
+        self.scale = scale
+        self.rect = self.rect.scale_by(scale)
 
     def set_state(self, state):
         if not self.state == state:
@@ -76,5 +82,5 @@ class Sprite(pg.sprite.Sprite):
             self.frame_timer = 0
         else:
             self.frame_timer += deltaTime * 100
-        self.image = pg.transform.scale_by(self.images[self.frame], 5)
+        self.image = pg.transform.scale_by(self.images[self.frame], self.scale)
         self.image = pg.transform.flip(self.image, self.flip, False)
