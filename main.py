@@ -8,6 +8,8 @@ g.start()
 while g.running:
     g.event()
     g.update()
+    
+   
     g.render()
 
 g.clean()

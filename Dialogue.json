@@ -1,0 +1,32 @@
+{
+    "npcs": [
+        {
+            "name": "NPC_1",
+            "dialogue": [
+                "Get back in your cell scum!",
+                "What are you lookin at?",
+                "Do the crime, do the time"
+            ]
+        },
+        {
+            "name": "NPC_2",
+            "dialogue": [
+                "Ready for your meatloaf hun!",
+                "Hey give that knife back!"
+            ]
+        },
+        {
+            "name": "NPC_3",
+            "dialogue": [
+                "I don't have much to say to strangers.",
+                "Maybe if you bring me something, I'll talk."
+            ]
+        }
+    ]
+
+}
+
+    
+
+
+

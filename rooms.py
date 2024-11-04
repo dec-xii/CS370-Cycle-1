@@ -4,12 +4,13 @@ from player import controller
 
 ACCEL = 3
 class Room:
-    def __init__(self, room_id, doors, items, backgrounds, collider_rect):
+    def __init__(self, room_id, doors, items, backgrounds, collider_rect, spawn_positions):
         self.room_id = room_id
         self.doors = doors  # List of door objects with positions and destinations
         self.items = items  # List of items specific to the room
         self.background = backgrounds
         self.collider_rect = collider_rect
+        self.spawn_positions = spawn_positions
 
     def draw(self, screen):
         # Draw all items and doors in the room
@@ -30,14 +31,23 @@ class Room:
         # Check if the player collides with any door
         for door in self.doors:
             if player_rect.colliderect(door["rect"]):
+                    
                 # Change the door's color to green when collided
                 door["color"] = "green"
+                target_room = door["target_room"]
+                
+                 # Get the spawn position for the target room
+                if target_room in self.spawn_positions:
+                    spawn_position = self.spawn_positions[target_room]
+                
+                # Update player's position to the spawn position of the target room
+                player_rect.topleft = spawn_position
+        
                 # Return the target room if collision happens
-                return door["target_room"]
+                return target_room
             else:
                 door["color"] = "blue"  # Reset color if no collision
-                
-            
+        
         # Check if player is outside room bounds
         if not self.collider_rect.contains(player_rect):
             if player_rect.left < self.collider_rect.left:
@@ -51,6 +61,8 @@ class Room:
             print("Player is out of bounds!")
             
         return None
+
+   
 
 
 def load_rooms():
@@ -71,6 +83,10 @@ def load_rooms():
     room1_collider = pg.Rect(100, 700, 1720, 300)
     room2_collider = pg.Rect(-100, 550, 1950, 500)
     room3_collider = pg.Rect(-100, 550, 1950, 500)
+    
+    room1_spawn_positions = {2: (800, 900)}
+    room2_spawn_positions = {1: (830, 900), 3: (100, 700)}
+    room3_spawn_positions = {2: (1850, 700)}
 
     # Door back to Room 1
     room2_doors = [{"rect": pg.Rect(
@@ -88,9 +104,9 @@ def load_rooms():
     room3_items = [pg.Rect(400, 700, 50, 50)]
 
     # Create the rooms
-    room1 = Room(1, room1_doors, room1_items, bg1, room1_collider)
-    room2 = Room(2, room2_doors, room2_items, bg2, room2_collider)
-    room3 = Room(3, room3_doors, room3_items, bg3, room3_collider)
+    room1 = Room(1, room1_doors, room1_items, bg1, room1_collider, room1_spawn_positions)
+    room2 = Room(2, room2_doors, room2_items, bg2, room2_collider, room2_spawn_positions)
+    room3 = Room(3, room3_doors, room3_items, bg3, room3_collider, room3_spawn_positions)
     
 
     # Return rooms as a dictionary
