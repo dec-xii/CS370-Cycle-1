@@ -52,5 +52,5 @@ def player():
     sprite = sprites.Sprite(States.FRONT, file, start,
                             size, frame_data, controller)
     sprite.rect.center = (700, 700)
-    sprite.scale_by(3)
+    sprite.scale_by(2)
     return sprite
