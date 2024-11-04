@@ -84,7 +84,7 @@ class Game:
         player_rect.topleft = (self.player.rect.x, self.player.rect.y)
 
         # Check for collision with a door in the current room
-        next_room = self.current_room.check_collision(player_rect)
+        next_room = self.current_room.check_collision(self.player.rect)
         if next_room:
             self.current_room = self.rooms[next_room]  # Switch to the new room
 
