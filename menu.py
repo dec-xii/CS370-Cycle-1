@@ -1,56 +1,105 @@
-from game import Game
+import pygame 
+import sys
+import game
 
-class MainMenu:
-    def __init__(self):
-        self.options = ["Start Game", "Options", "Quit"]
-        self.selected_option = 0
+pygame.init()
 
-    def display(self):
-        print("Main Menu")
-        for index, option in enumerate(self.options):
-            if index == self.selected_option:
-                print(f"> {option} <")  # Highlight the selected option
-            else:
-                print(option)
+# display
+Width, Height = 1920, 1080
+screen = pygame.display.set_mode((Width, Height))
 
-    def navigate(self, direction):
-        self.selected_option += direction
-        self.selected_option %= len(self.options)  # Loop around the options
+pygame.display.set_caption("Main Menu")
 
-    def select(self):
-        if self.selected_option == 0:  # Start Game
-            return "start"
-        elif self.selected_option == 1:  # Options
-            return "options"
-        elif self.selected_option == 2:  # Quit
-            return "quit"
+# colors
+blue = (0, 0, 255)
+red = (255, 0 , 0)
+black = (0, 0, 0,)
 
-g = Game()
 
-while True:
-    menu = MainMenu()
+# button class
+class Button:
+    def __init__(self, text, x, y, width, height, press = None):
+        self.text = text
+        self.rect = pygame.Rect(x, y, width, height)
+        self.font = pygame.font.SysFont(None, 40)
+        self.color = red
+        self.hover_color = (0, 255, 0)
+        self.press = press
+
+    def draw(self, place):
+        pygame.draw.rect(place, self.color if not self.is_hovered 
+                         else self.hover_color, self.rect)
+        text_place = self.font.render(self.text, True, blue)
+        text_rect = text_place.get_rect(center = self.rect.center)
+        place.blit(text_place, text_rect)
+
+    def is_hovered(self):
+        return self.rect.collidepoint(pygame.mouse.get_pos())
     
-    while True:
-        menu.display()
-        action = input("Use arrow keys to navigate (up/down) or Enter to select: ")
+    def click(self):
+        if self.is_hovered() and self.press:
+            self.press()
 
-        if action == "up":
-            menu.navigate(-1)
-        elif action == "down":
-            menu.navigate(1)
-        elif action == "enter":
-            selection = menu.select()
-            if selection == "start":
-                break  # Exit menu to start the game
-            elif selection == "quit":
-                g.clean()
-                exit()
+# starting 
+def game_start():
+        global current_state
+        current_state = game()
 
-    g.start()
+def game_quit():
+        pygame.quit()
+        sys.exit()
 
-    while g.running:
-        g.event()
-        g.update()
-        g.render()
 
-    g.clean()
+
+# menu class
+
+class Menu:
+    def start(self):
+        self.game = game()
+
+    def __init__(self):
+        self.current_state = Menu
+        self.buttons = [
+    Button("Start", 200, 150, 200, 50, ( game_start(self))),
+    Button("Options", 200, 220, 200, 50),
+    Button("Quit", 200, 290, 200, 50, game_quit),]
+        
+
+    def run(self):
+        while self.current_state == Menu:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.game_quit()
+                elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                    for button in self.buttons:
+                        button.click()
+
+       
+        
+
+        # draw buttons
+        for button in self.buttons:
+            button.draw(screen)
+
+        # update display
+        pygame.display.flip()
+
+
+    
+
+        
+    
+        
+
+
+    
+    
+
+
+
+
+
+  
+
+
+        
