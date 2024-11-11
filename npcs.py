@@ -1,4 +1,6 @@
 import pygame as pg
+import os
+import json
 from enum import Enum
 import sprites
 import dialog
@@ -26,6 +28,7 @@ def pointToPoint(x, input):
     return x
 
 
+# The action performed once the player interacts with an NPC
 def action(self):
     self.dialog.update()
 
@@ -50,31 +53,42 @@ class NPC(sprites.Sprite):
         if self.animated:
             self.next_frame(deltaTime)
 
+    # Handles NPC-Player interactions
     def interact(self, player, input):
+        self.dialog.visable = False
+        # Detect the players's distance from the NPC
         if pg.Vector2(player.rect.center).distance_to(pg.Vector2(self.rect.center)) < self.radius:
             self.image.fill("yellow", special_flags=pg.BLEND_RGBA_MIN)
             self.dialog.visable = True
             if input.mouseUp(0) and self.rect.collidepoint(input.mouse_pos):
                 self.action(self)
-        else:
-            self.dialog.visable = False
 
     def displayText(self, screen):
         self.dialog.display(self.rect.move(-10, 0), screen)
 
 
 def spawn():
-    file = "Knight.png"
-    start = [0, 0]
-    size = [32, 32]
-    frame_data = [13, 8, 10, 10, 10]
-    points = [(800, 800)]
+    # Load the anima     for each point
     animations = [States.IDLE]
-    sprite = NPC(States.IDLE, file, start,
-                 size, frame_data, points, animations, action)
-    sprite.rect.center = (800, 800)
-    sprite.flip = True
-    sprite.scale_by(5)
+
+    # Iterate over the NPC files and laod each into a sprite
+    for file in os.listdir("Entities"):
+        if file != "Player.json":
+            with open("Entities/" + file) as f:
+                data = json.load(f)
+                sprite = NPC(
+                    States.IDLE, data["file"], data["start"], data["size"],
+                    data["frame_data"], data["points"], animations, action)
+
+    #  Set the starting location
+    if "center" in data:
+        sprite.rect.center = data["center"]
+
+    # Set the srpite size
+    if "scale" in data:
+        sprite.scale_by(data["scale"])
+
+    # Load the sprite's dialog
     sprite.dialog = dialog.Dialog()
 
     return sprite
