@@ -43,7 +43,7 @@ class Button:
 # starting 
 def game_start():
         global current_state
-        current_state = game()
+        current_state = "game"
 
 def game_quit():
         pygame.quit()
@@ -59,14 +59,13 @@ class Menu:
 
     def __init__(self):
         self.current_state = Menu
-        self.buttons = [
-    Button("Start", 200, 150, 200, 50, ( game_start(self))),
-    Button("Options", 200, 220, 200, 50),
-    Button("Quit", 200, 290, 200, 50, game_quit),]
+        self.buttons = [ Button("Start", 200, 150, 200, 50, (game.game_start), 
+                                Button("Options", 200, 220, 200, 50), 
+                                Button("Quit", 200, 290, 200, 50, game_quit))]
         
 
     def run(self):
-        while self.current_state == Menu:
+        while isinstance(self.current_state, Menu):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.game_quit()

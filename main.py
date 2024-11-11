@@ -23,4 +23,7 @@ while True:
 
         g.clean()
 
+    elif m.quit:
+        m.running = False
+
     m.clean()
