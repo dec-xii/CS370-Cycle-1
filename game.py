@@ -106,3 +106,4 @@ class Game:
 
     def clean(self):
         pg.quit()
+

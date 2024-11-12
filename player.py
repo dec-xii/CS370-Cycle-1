@@ -1,4 +1,5 @@
 import pygame as pg
+import json
 from enum import Enum
 import sprites
 
@@ -45,12 +46,14 @@ def controller(x, input):
 
 
 def player():
-    file = "CS370 Art-Sheet.png"
-    start = [0, 0]
-    size = [23, 48]
-    frame_data = [3, 2, 2]
-    sprite = sprites.Sprite(States.FRONT, file, start,
-                            size, frame_data, controller)
-    sprite.rect.center = (700, 700)
-    sprite.scale_by(2)
+    with open("Entities/Player.json") as f:
+        data = json.load(f)
+        sprite = sprites.Sprite(
+            States.FRONT, data["file"], data["start"], data["size"], data["frame_data"], controller)
+
+    if "center" in data:
+        sprite.rect.center = data["center"]
+    if "scale" in data:
+        sprite.scale_by(data["scale"])
+
     return sprite
