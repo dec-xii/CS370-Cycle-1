@@ -1,14 +1,24 @@
 from game import Game
 from menu import Menu
 
-g = Game()
+g = Game()  
+m = Menu()  
 
-g.start()
+# main menu loop
 
-while g.running:
-    g.event()
-    g.update()
-    g.render()
+while True:
+    while m.running:
+        m.event()
+        m.update()
+        m.render()
+
+  
+    if m.start_game:
+        g.start()
+        while g.running:
+            g.event()
+            g.update()
+            g.render()
 
         g.clean()
 
