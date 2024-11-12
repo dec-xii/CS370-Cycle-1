@@ -5,7 +5,6 @@ class inventory:
     item_list=[]
     def __init__(self, size):
         self.size=size 
-
     def pop_item(item_name):
         for index,item in item_list:
             if item.name==item_name:
@@ -19,7 +18,6 @@ class inventory:
     def add_item(item):
         if item is obj and len(item_list) < size:
             item_list.append(item)
-
     def check_item(item_name):
         for item in item_list:
             if item.name==item_name:
@@ -30,6 +28,5 @@ class inventory:
         for index,item in item_list:
             if item.name==item_name:
                 del item_list[index]
-
     def get_item_list():
         return item_list
