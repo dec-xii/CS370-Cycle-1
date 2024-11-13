@@ -46,7 +46,6 @@ def controller(x, input):
 
 
 def player():
-
     with open("Entities/Player.json") as f:
         data = json.load(f)
         sprite = sprites.Sprite(

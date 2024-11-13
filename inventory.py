@@ -1,5 +1,5 @@
 import pygame as pg 
-import object as obj
+import dq_object as obj
 
 class inventory:
     item_list=[]
