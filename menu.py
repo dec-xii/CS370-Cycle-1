@@ -64,8 +64,8 @@ class Menu:
         self.running = True  
         self.start_game = False  
         self.buttons = [
-            Button("Start", 200, 150, 200, 50, lambda: game_start(self)),
-            Button("Quit", 200, 220, 200, 50, game_quit)
+            Button("Start", 860, 450, 200, 50, lambda: game_start(self)),
+            Button("Quit", 860, 550, 200, 50, game_quit)
         ]
 
     def start(self):
@@ -85,7 +85,9 @@ class Menu:
             game_start(self)
 
     def render(self):
-        screen.fill(black)  
+        background = pygame.image.load("CS370_Menu_Background.jpg")
+        background = pygame.transform.scale(background, (1920, 1080)) 
+        screen.blit(background, (0, 0)) 
         for button in self.buttons:
             button.draw(screen)
 
