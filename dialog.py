@@ -10,7 +10,8 @@ class Node():
 
 class Dialog():
     def __init__(self):
-        self.font = pg.font.SysFont('Comic Sans MS', 40)
+        #self.font = pg.font.SysFont('Comic Sans MS', 40)
+        self.font = pg.font.Font("Assets/SuperPixel-m2L8j.ttf", 30)
         self.text = ["This", "is", "a", "test"]
         self.index = 0
         self.visable = True

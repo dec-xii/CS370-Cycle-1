@@ -1,6 +1,5 @@
 import pygame as pg
 import json
-import jsonpickle
 from enum import Enum
 import sprites
 
