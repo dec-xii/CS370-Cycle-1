@@ -43,8 +43,7 @@ class Game:
 
         self.running = True
         self.player = player.player()
-        self.NPCs = [npcs.spawn()]
-        self.sprites = pg.sprite.RenderPlain(self.player, self.NPCs)
+        self.sprites = pg.sprite.RenderPlain(self.player)
 
         # Load background, this will be moved to Environment load function
         self.bg = pg.image.load("CS370_Room_Art.png")
@@ -88,7 +87,7 @@ class Game:
         self.player.update(self.deltaTime, self.input)
         # self.NPCs.update(self.deltaTime, self.input)
 
-        for npc in self.NPCs:
+        for npc in self.current_room.entites:
             npc.update(self.deltaTime, self.input)
             npc.interact(self.player, self.input)
 
@@ -108,8 +107,6 @@ class Game:
     def render(self):
         self.current_room.draw(self.screen)
         self.sprites.draw(self.screen)
-        for npc in self.NPCs:
-            npc.displayText(self.screen)
 
         self.player_hud.render(self.screen)
         pg.display.flip()

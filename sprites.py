@@ -5,7 +5,7 @@ fps = 60
 
 
 class Sprite(pg.sprite.Sprite):
-    def __init__(self, state, sheet=None, start=[0, 0], size=[0, 0], columns=0, controller=None):
+    def __init__(self, state, sheet=None, start=[0, 0], size=[0, 0], columns=0, frame_rate = 6, controller=None):
         # Call parent constructor
         pg.sprite.Sprite.__init__(self)
 
@@ -33,6 +33,7 @@ class Sprite(pg.sprite.Sprite):
             self.deltaTime = 0
             self.flip = False
             self.complete = False
+            self.frame_rate = frame_rate
 
         self.scale = 1
 
@@ -73,7 +74,7 @@ class Sprite(pg.sprite.Sprite):
 
     def next_frame(self, deltaTime):
         # Update frame fps interval
-        if self.frame_timer > fps / 6:
+        if self.frame_timer > fps / self.frame_rate:
             if self.frame < len(self.images) - 1:
                 self.frame += 1
             else:

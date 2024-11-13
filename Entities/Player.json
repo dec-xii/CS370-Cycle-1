@@ -1,5 +1,6 @@
 {
   "file": "CS370 Art-Sheet.png",
+  "frame_rate": 4,
   "start": [
     0,
     0
@@ -17,5 +18,5 @@
     700,
     700
   ],
-  "scale": 3
+  "scale": 2
 }
