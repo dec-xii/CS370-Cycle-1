@@ -1,7 +1,6 @@
 import pygame
 import sys
-import game  # Import the game to start it
-
+import game  
 
 pygame.init()
 
@@ -35,10 +34,10 @@ class Button:
         self.press = press
 
     def draw(self, place):
-        # Draw the button rectangle with the appropriate color
+        # draw button
         pygame.draw.rect(place, self.color if not self.is_hovered()
                          else self.hover_color, self.rect)
-        # Render the text on the button
+        # render button text
         text_place = self.font.render(self.text, True, white)
         text_rect = text_place.get_rect(center=self.rect.center)
         place.blit(text_place, text_rect)
@@ -52,8 +51,8 @@ class Button:
 
 # starting the game
 def game_start(menu):
-    menu.running = False  # Stop the menu loop
-    menu.start_game = True  # Flag to start the game
+    menu.running = False  
+    menu.start_game = True  
 
 def game_quit():
     pygame.quit()
@@ -89,7 +88,7 @@ class Menu:
         screen.fill(black)  
         for button in self.buttons:
             button.draw(screen)
-            
+
             #update screen
         pygame.display.flip()  
 
