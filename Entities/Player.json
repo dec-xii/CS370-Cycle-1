@@ -1,0 +1,22 @@
+{
+  "file": "CS370 Art-Sheet.png",
+  "frame_rate": 4,
+  "start": [
+    0,
+    0
+  ],
+  "size": [
+    23,
+    49
+  ],
+  "frame_data": [
+    3,
+    2,
+    2
+  ],
+  "center": [
+    700,
+    700
+  ],
+  "scale": 2
+}

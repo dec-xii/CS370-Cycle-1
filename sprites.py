@@ -5,7 +5,7 @@ fps = 60
 
 
 class Sprite(pg.sprite.Sprite):
-    def __init__(self, state, sheet=None, start=[0, 0], size=[0, 0], columns=0, controller=None):
+    def __init__(self, state, sheet=None, start=[0, 0], size=[0, 0], columns=0, frame_rate = 6, controller=None):
         # Call parent constructor
         pg.sprite.Sprite.__init__(self)
 
@@ -33,11 +33,14 @@ class Sprite(pg.sprite.Sprite):
             self.deltaTime = 0
             self.flip = False
             self.complete = False
+            self.frame_rate = frame_rate
+
+        self.scale = 1
 
         # Movement
         self.velocity = pg.Vector2(0, 0)
         # Set self.rect as a pygame.Rect object using start and size
-        self.move = controller
+        self.controller = controller
 
     # Load spritesheets
     def load_sheet(self, sheet, start, size, columns):
@@ -53,10 +56,14 @@ class Sprite(pg.sprite.Sprite):
 
     def update(self, deltaTime, input):
         # Update the sprite location
-        if self.move:
-            self = self.move(self, input)
+        if self.controller:
+            self = self.controller(self, input)
         if self.animated:
             self.next_frame(deltaTime)
+
+    def scale_by(self, scale):
+        self.scale = scale
+        self.rect = self.rect.scale_by(scale)
 
     def set_state(self, state):
         if not self.state == state:
@@ -67,7 +74,7 @@ class Sprite(pg.sprite.Sprite):
 
     def next_frame(self, deltaTime):
         # Update frame fps interval
-        if self.frame_timer > fps / 6:
+        if self.frame_timer > fps / self.frame_rate:
             if self.frame < len(self.images) - 1:
                 self.frame += 1
             else:
@@ -76,5 +83,5 @@ class Sprite(pg.sprite.Sprite):
             self.frame_timer = 0
         else:
             self.frame_timer += deltaTime * 100
-        self.image = pg.transform.scale_by(self.images[self.frame], 5)
+        self.image = pg.transform.scale_by(self.images[self.frame], self.scale)
         self.image = pg.transform.flip(self.image, self.flip, False)

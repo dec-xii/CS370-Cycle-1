@@ -1,20 +1,23 @@
 # room.py
 import pygame as pg
+import npcs
 from player import controller
+from dq_object import dq_item, items
 
 ACCEL = 3
 class Room:
-    def __init__(self, room_id, doors, items, backgrounds, collider_rect, spawn_positions):
+    def __init__(self, room_id, doors, items, backgrounds, collider_rect, spawn_positions, entites = []):
         self.room_id = room_id
         self.doors = doors  # List of door objects with positions and destinations
         self.items = items  # List of items specific to the room
         self.background = backgrounds
         self.collider_rect = collider_rect
         self.spawn_positions = spawn_positions
+        self.entites = entites
 
     def draw(self, screen):
         # Draw all items and doors in the room
-        # screen.fill((0, 0, 0))  # Clear the screen
+        # screen.fill((0, 0, 0))  # Clea the screen
 
         screen.fill("black")
 
@@ -25,7 +28,13 @@ class Room:
                          door["rect"])  # Draw doors as rectangles
         for item in self.items:
             # Draw other items as white rectangles
-            pg.draw.rect(screen, "white", item)
+            print("Rendering item ", item.myObject.name)
+            item.render(screen)
+
+        pg.sprite.RenderPlain(self.entites).draw(screen)
+        for npc in self.entites:
+            npc.displayText(screen)
+
 
     def check_collision(self, player_rect):
         # Check if the player collides with any door
@@ -65,7 +74,7 @@ class Room:
    
 
 
-def load_rooms():
+def load_rooms(obj_map):
     # Define doors as rectangles with a destination room ID
     # Door to Room 2
     room1_doors = [{"rect": pg.Rect(
@@ -100,11 +109,16 @@ def load_rooms():
     # Define room items
     room1_items = []  
     # A white square object in Room 2
-    room2_items = [pg.Rect(400, 700, 50, 50)]
-    room3_items = [pg.Rect(400, 700, 50, 50)]
+    room2_items = [dq_item(obj_map[items.CIGARETTE.value], 1200, 900),
+                   dq_item(obj_map[items.KEYS.value], 600, 800),
+                   dq_item(obj_map[items.LIGHTER.value], 500, 900),
+                   dq_item(obj_map[items.POSTER.value], 200, 400),
+                   dq_item(obj_map[items.UTENSILS.value], 1500, 1000),
+                   dq_item(obj_map[items.BED_SHEETS.value], 100, 900)]
+    room3_items = []
 
     # Create the rooms
-    room1 = Room(1, room1_doors, room1_items, bg1, room1_collider, room1_spawn_positions)
+    room1 = Room(1, room1_doors, room1_items, bg1, room1_collider, room1_spawn_positions, [npcs.spawn()])
     room2 = Room(2, room2_doors, room2_items, bg2, room2_collider, room2_spawn_positions)
     room3 = Room(3, room3_doors, room3_items, bg3, room3_collider, room3_spawn_positions)
     

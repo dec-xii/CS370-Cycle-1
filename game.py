@@ -1,19 +1,31 @@
 import pygame as pg
 import input
 import player
+import npcs
 from player import States
 from rooms import load_rooms
 from animation_tests import Tests
+import inventory as inv
+import dq_object
+from dq_object import items, dq_object
+import hud
 
 fps = 60
 SCREENRECT = pg.Rect(0, 0, 1920, 1080)
 
-
 class Game:
     def __init__(self):
         pg.init()
-        self.x, self.y = 500, 500  # Initial position of the player
-        self.speed = 5  # Player movement speed
+
+        self.obj_map = []
+        self.obj_map.append (dq_object("cigarette",r'images/objects/cigarette.jpg',isUsable=True))
+        self.obj_map.append (dq_object("keys",r'images/objects/keys.jpg',isUsable=True))
+        self.obj_map.append (dq_object("toothbrush",r'images/objects/toothbrush.jpg',isUsable=True))
+        self.obj_map.append (dq_object("plastic utensils",r'images/objects/utensils.jpg',isUsable=True)) 
+        self.obj_map.append (dq_object("bedsheets",r'images/objects/bed sheets.jpg',isUsable=False))
+        self.obj_map.append (dq_object("lighter",r'images/objects/lighter.jpg',isUsable=True))
+        self.obj_map.append (dq_object("poster",r'images/objects/poster.jpg',isUsable=False))
+
         self.running = False
         self.input = input.Input()
         self.screen = pg.display.set_mode((1920, 1080))
@@ -22,10 +34,13 @@ class Game:
         self.deltaTime = 0
         self.winstyle = 0  # |FULLSCREEN
         self.bestdepth = pg.display.mode_ok(SCREENRECT.size, self.winstyle, 32)
+        self.player_inventory = inv.inventory(10)
+        self.player_hud = hud.hud()
 
     # Initialize
-
     def start(self):
+        pg.font.init()
+
         self.running = True
         self.player = player.player()
         self.sprites = pg.sprite.RenderPlain(self.player)
@@ -35,7 +50,7 @@ class Game:
         self.bg = pg.transform.scale(self.bg, (1920, 1080))
 
         # Load rooms using the load_rooms function
-        self.rooms = load_rooms()
+        self.rooms = load_rooms(self.obj_map)
         self.current_room = self.rooms[1]  # Start in Room 1
 
     def event(self):
@@ -68,8 +83,13 @@ class Game:
         self.input.update()
 
     def update(self):
-        self.player.update(self.deltaTime, self.input)
         self.deltaTime = self.clock.tick(fps) / 1000
+        self.player.update(self.deltaTime, self.input)
+        # self.NPCs.update(self.deltaTime, self.input)
+
+        for npc in self.current_room.entites:
+            npc.update(self.deltaTime, self.input)
+            npc.interact(self.player, self.input)
 
         # Player's hitbox for collision detection
         player_rect = self.player.rect.copy()  # Get the player's rectangle
@@ -82,12 +102,15 @@ class Game:
             self.current_room = self.rooms[next_room]  # Switch to the new room
 
         # Call the animation test function
-        Tests.run_animation_test(self.player)
+        # Tests.run_animation_test(self.player)
 
     def render(self):
         self.current_room.draw(self.screen)
         self.sprites.draw(self.screen)
+
+        self.player_hud.render(self.screen)
         pg.display.flip()
 
     def clean(self):
         pg.quit()
+
