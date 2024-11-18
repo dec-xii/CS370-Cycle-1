@@ -1,6 +1,7 @@
 # room.py
 import pygame as pg
 from player import controller
+from dq_object import dq_item, items
 
 ACCEL = 3
 class Room:
@@ -25,7 +26,8 @@ class Room:
                          door["rect"])  # Draw doors as rectangles
         for item in self.items:
             # Draw other items as white rectangles
-            pg.draw.rect(screen, "white", item)
+            print("Rendering item ", item.myObject.name)
+            item.render(screen)
 
     def check_collision(self, player_rect):
         # Check if the player collides with any door
@@ -65,7 +67,7 @@ class Room:
    
 
 
-def load_rooms():
+def load_rooms(obj_map):
     # Define doors as rectangles with a destination room ID
     # Door to Room 2
     room1_doors = [{"rect": pg.Rect(
@@ -100,8 +102,13 @@ def load_rooms():
     # Define room items
     room1_items = []  
     # A white square object in Room 2
-    room2_items = [pg.Rect(400, 700, 50, 50)]
-    room3_items = [pg.Rect(400, 700, 50, 50)]
+    room2_items = [dq_item(obj_map[items.CIGARETTE.value], 1200, 900),
+                   dq_item(obj_map[items.KEYS.value], 600, 800),
+                   dq_item(obj_map[items.LIGHTER.value], 500, 900),
+                   dq_item(obj_map[items.POSTER.value], 200, 400),
+                   dq_item(obj_map[items.UTENSILS.value], 1500, 1000),
+                   dq_item(obj_map[items.BED_SHEETS.value], 100, 900)]
+    room3_items = []
 
     # Create the rooms
     room1 = Room(1, room1_doors, room1_items, bg1, room1_collider, room1_spawn_positions)

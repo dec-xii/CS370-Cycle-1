@@ -6,15 +6,25 @@ from player import States
 from rooms import load_rooms
 from animation_tests import Tests
 import inventory as inv
+import dq_object
+from dq_object import items, dq_object
 import hud
 
 fps = 60
 SCREENRECT = pg.Rect(0, 0, 1920, 1080)
 
-
 class Game:
     def __init__(self):
         pg.init()
+
+        self.obj_map = []
+        self.obj_map.append (dq_object("cigarette",r'images/objects/cigarette.jpg',isUsable=True))
+        self.obj_map.append (dq_object("keys",r'images/objects/keys.jpg',isUsable=True))
+        self.obj_map.append (dq_object("toothbrush",r'images/objects/toothbrush.jpg',isUsable=True))
+        self.obj_map.append (dq_object("plastic utensils",r'images/objects/utensils.jpg',isUsable=True)) 
+        self.obj_map.append (dq_object("bedsheets",r'images/objects/bed sheets.jpg',isUsable=False))
+        self.obj_map.append (dq_object("lighter",r'images/objects/lighter.jpg',isUsable=True))
+        self.obj_map.append (dq_object("poster",r'images/objects/poster.jpg',isUsable=False))
 
         self.running = False
         self.input = input.Input()
@@ -41,7 +51,7 @@ class Game:
         self.bg = pg.transform.scale(self.bg, (1920, 1080))
 
         # Load rooms using the load_rooms function
-        self.rooms = load_rooms()
+        self.rooms = load_rooms(self.obj_map)
         self.current_room = self.rooms[1]  # Start in Room 1
 
     def event(self):
