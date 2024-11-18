@@ -13,18 +13,26 @@ import hud
 fps = 60
 SCREENRECT = pg.Rect(0, 0, 1920, 1080)
 
+
 class Game:
     def __init__(self):
         pg.init()
 
         self.obj_map = []
-        self.obj_map.append (dq_object("cigarette",r'images/objects/cigarette.jpg',isUsable=True))
-        self.obj_map.append (dq_object("keys",r'images/objects/keys.jpg',isUsable=True))
-        self.obj_map.append (dq_object("toothbrush",r'images/objects/toothbrush.jpg',isUsable=True))
-        self.obj_map.append (dq_object("plastic utensils",r'images/objects/utensils.jpg',isUsable=True)) 
-        self.obj_map.append (dq_object("bedsheets",r'images/objects/bed sheets.jpg',isUsable=False))
-        self.obj_map.append (dq_object("lighter",r'images/objects/lighter.jpg',isUsable=True))
-        self.obj_map.append (dq_object("poster",r'images/objects/poster.jpg',isUsable=False))
+        self.obj_map.append(
+            dq_object("cigarette", r'Assets/objects/cigarette.jpg', isUsable=True))
+        self.obj_map.append(
+            dq_object("keys", r'Assets/objects/keys.jpg', isUsable=True))
+        self.obj_map.append(
+            dq_object("toothbrush", r'Assets/objects/toothbrush.jpg', isUsable=True))
+        self.obj_map.append(dq_object("plastic utensils",
+                            r'Assets/objects/utensils.jpg', isUsable=True))
+        self.obj_map.append(
+            dq_object("bedsheets", r'Assets/objects/bed sheets.jpg', isUsable=False))
+        self.obj_map.append(
+            dq_object("lighter", r'Assets/images/lighter.png', isUsable=True))
+        self.obj_map.append(
+            dq_object("poster", r'Assets/objects/poster.jpg', isUsable=False))
 
         self.running = False
         self.input = input.Input()
@@ -46,7 +54,7 @@ class Game:
         self.sprites = pg.sprite.RenderPlain(self.player)
 
         # Load background, this will be moved to Environment load function
-        self.bg = pg.image.load("CS370_Room_Art.png")
+        self.bg = pg.image.load("Assets/Rooms/CS370_Room_Art.png")
         self.bg = pg.transform.scale(self.bg, (1920, 1080))
 
         # Load rooms using the load_rooms function
@@ -113,4 +121,3 @@ class Game:
 
     def clean(self):
         pg.quit()
-
