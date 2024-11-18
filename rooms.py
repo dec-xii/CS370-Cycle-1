@@ -89,22 +89,32 @@ def load_rooms(obj_map):
     bg3 = pg.image.load("CafeArt.png")
     bg3 = pg.transform.scale(bg3, (1920, 1080))
     
+    bg4 = pg.image.load("CourtArt.png")
+    bg4 = pg.transform.scale(bg4, (1920, 1080))
+    
     room1_collider = pg.Rect(100, 700, 1720, 300)
     room2_collider = pg.Rect(-100, 550, 1950, 500)
     room3_collider = pg.Rect(-100, 550, 1950, 500)
+    room4_collider = pg.Rect(-100, 550, 1950, 500)
     
     room1_spawn_positions = {2: (800, 900)}
-    room2_spawn_positions = {1: (830, 900), 3: (100, 700)}
+    room2_spawn_positions = {1: (830, 900), 3: (100, 700), 4: (1000, 900)}
     room3_spawn_positions = {2: (1850, 700)}
+    room4_spawn_positions = {2: (100, 700)}
 
     # Door back to Room 1
     room2_doors = [{"rect": pg.Rect(
         830, 1000, 200, 50), "target_room": 1},
                    {"rect": pg.Rect(
-        1850, 800, 200, 200), "target_room": 3}]
+        1850, 800, 200, 200), "target_room": 3},
+                   {"rect": pg.Rect(
+        -100, 800, 200, 200), "target_room": 4}]
     
     room3_doors = [{"rect": pg.Rect(
         -100, 1000, 200, 200), "target_room": 2}]
+    
+    room4_doors = [{"rect": pg.Rect(
+        1850, 800, 200, 200), "target_room": 2}]
 
     # Define room items
     room1_items = []  
@@ -116,12 +126,14 @@ def load_rooms(obj_map):
                    dq_item(obj_map[items.UTENSILS.value], 1500, 1000),
                    dq_item(obj_map[items.BED_SHEETS.value], 100, 900)]
     room3_items = []
+    room4_items = []
 
     # Create the rooms
     room1 = Room(1, room1_doors, room1_items, bg1, room1_collider, room1_spawn_positions, [npcs.spawn()])
     room2 = Room(2, room2_doors, room2_items, bg2, room2_collider, room2_spawn_positions)
     room3 = Room(3, room3_doors, room3_items, bg3, room3_collider, room3_spawn_positions)
+    room4 = Room(4, room4_doors, room4_items, bg4, room4_collider, room4_spawn_positions)
     
 
     # Return rooms as a dictionary
-    return {1: room1, 2: room2, 3: room3}
+    return {1: room1, 2: room2, 3: room3, 4: room4}
