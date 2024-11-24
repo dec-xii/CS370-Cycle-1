@@ -16,7 +16,7 @@ def pointToPoint(x, input):
     halt = False
     # Update the target
     if pg.Vector2(x.rect.center).distance_to(pg.Vector2(x.points[x.target])) < 10:
-        if x.target == len(x.points) -1:
+        if x.target == len(x.points) - 1:
             x.set_state(States.IDLE)
             halt = True
         else:

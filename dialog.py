@@ -1,5 +1,7 @@
 import pygame as pg
 
+UI_RECT = pg.Rect(1200, 60, 500, 50)
+
 
 class Node():
     def __init__(self):
@@ -10,9 +12,10 @@ class Node():
 
 class Dialog():
     def __init__(self):
-        #self.font = pg.font.SysFont('Comic Sans MS', 40)
+        # self.font = pg.font.SysFont('Comic Sans MS', 40)
         self.font = pg.font.Font("Assets/SuperPixel-m2L8j.ttf", 30)
-        self.text = ["This", "is", "a", "test"]
+        self.text = ["This is a test",
+                     "This is where the NPC Dialogue will be displayed"]
         self.index = 0
         self.visable = True
         self.text_surface = self.font.render(
@@ -27,5 +30,8 @@ class Dialog():
             self.text[self.index], False, (255, 255, 255))
 
     def display(self, pos, screen):
-        if self.visable:
-            screen.blit(self.text_surface, pos)
+        self.text_surface.set_clip(UI_RECT)
+        # self.text_surface.scroll(-1)
+
+        pg.draw.rect(screen, "green", UI_RECT)
+        screen.blit(self.text_surface, UI_RECT.topleft)
