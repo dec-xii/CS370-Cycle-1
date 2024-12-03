@@ -51,7 +51,7 @@ class Game:
         self.bg = pg.transform.scale(self.bg, (1920, 1080))
 
         # Load rooms using the load_rooms function
-        self.rooms = load_rooms(self.obj_map)
+        self.rooms = load_rooms(self.obj_map, self.player_inventory)
         self.current_room = self.rooms[1]  # Start in Room 1
 
     def event(self):
@@ -111,7 +111,7 @@ class Game:
         for npc in self.NPCs:
             npc.displayText(self.screen)
 
-        self.player_hud.render(self.screen)
+        self.player_hud.render(self.screen, self.player_inventory.get_item_list())
         pg.display.flip()
 
     def clean(self):

@@ -5,13 +5,14 @@ from dq_object import dq_item, items
 
 ACCEL = 3
 class Room:
-    def __init__(self, room_id, doors, items, backgrounds, collider_rect, spawn_positions):
+    def __init__(self, room_id, doors, items, backgrounds, collider_rect, spawn_positions, inventory):
         self.room_id = room_id
         self.doors = doors  # List of door objects with positions and destinations
         self.items = items  # List of items specific to the room
         self.background = backgrounds
         self.collider_rect = collider_rect
         self.spawn_positions = spawn_positions
+        self.inventory = inventory
 
     def draw(self, screen):
         # Draw all items and doors in the room
@@ -26,30 +27,58 @@ class Room:
                          door["rect"])  # Draw doors as rectangles
         for item in self.items:
             # Draw other items as white rectangles
-            print("Rendering item ", item.myObject.name)
             item.render(screen)
 
     def check_collision(self, player_rect):
         # Check if the player collides with any door
         for door in self.doors:
             if player_rect.colliderect(door["rect"]):
+                target_room = door["target_room"] 
+                if(target_room == 4):
+                    # Check if key
+                    keyFound = False
+                    for item in self.inventory.get_item_list():
+                        if(item.name == "keys"):
+                            print("Key Found")
+                            keyFound = True
+                            self.inventory.get_item_list().remove(item)
+                    if(not keyFound):
+                        door["color"] = "red"
+                    else:
+                        spawn = (1850, 700)
+                        if target_room in self.spawn_positions:
+                            spawn = self.spawn_positions[target_room]
+                        
+                        # Update player's position to the spawn position of the target room
+                        player_rect.topleft = spawn
+            
+                        # Return the target room if collision happens
+                        return target_room
+                else:
+                    # Change the door's color to green when collided
+                    door["color"] = "green"
+                    print("target room ",target_room)
+                    # Get the spawn position for the target room
+                    spawn = (1850, 700)
+                    if target_room in self.spawn_positions:
+                        spawn = self.spawn_positions[target_room]
                     
-                # Change the door's color to green when collided
-                door["color"] = "green"
-                target_room = door["target_room"]
-                
-                 # Get the spawn position for the target room
-                if target_room in self.spawn_positions:
-                    spawn_position = self.spawn_positions[target_room]
-                
-                # Update player's position to the spawn position of the target room
-                player_rect.topleft = spawn_position
+                    # Update player's position to the spawn position of the target room
+                    player_rect.topleft = spawn
         
-                # Return the target room if collision happens
-                return target_room
+                    # Return the target room if collision happens
+                    return target_room
             else:
                 door["color"] = "blue"  # Reset color if no collision
         
+        # Check item collision
+        for item in self.items:
+            if(item.check_collision(player_rect)):
+                # add to inventory
+                self.inventory.add_item(item)
+                # delete item
+                self.items.remove(item)
+
         # Check if player is outside room bounds
         if not self.collider_rect.contains(player_rect):
             if player_rect.left < self.collider_rect.left:
@@ -60,14 +89,13 @@ class Room:
                 player_rect.top = self.collider_rect.top
             if player_rect.bottom > self.collider_rect.bottom:
                 player_rect.bottom = self.collider_rect.bottom
-            print("Player is out of bounds!")
             
         return None
 
    
 
 
-def load_rooms(obj_map):
+def load_rooms(obj_map, inv):
     # Define doors as rectangles with a destination room ID
     # Door to Room 2
     room1_doors = [{"rect": pg.Rect(
@@ -81,14 +109,19 @@ def load_rooms(obj_map):
     
     bg3 = pg.image.load("CafeArt.png")
     bg3 = pg.transform.scale(bg3, (1920, 1080))
+
+    bg4 = pg.image.load(r'images/objects/gameover.png')
+    bg4 = pg.transform.scale(bg4, (1920, 1080))
     
     room1_collider = pg.Rect(100, 700, 1720, 300)
     room2_collider = pg.Rect(-100, 550, 1950, 500)
     room3_collider = pg.Rect(-100, 550, 1950, 500)
+    room4_collider = pg.Rect(-100, 550, 1950, 500)
     
     room1_spawn_positions = {2: (800, 900)}
     room2_spawn_positions = {1: (830, 900), 3: (100, 700)}
     room3_spawn_positions = {2: (1850, 700)}
+    room4_spawn_positions = {3: (1850, 700), 4: (1850, 700)}
 
     # Door back to Room 1
     room2_doors = [{"rect": pg.Rect(
@@ -97,7 +130,10 @@ def load_rooms(obj_map):
         1850, 800, 200, 200), "target_room": 3}]
     
     room3_doors = [{"rect": pg.Rect(
-        -100, 1000, 200, 200), "target_room": 2}]
+        -100, 1000, 200, 200), "target_room": 2},
+                    {"rect": pg.Rect(
+        1850, 800, 200, 200), "target_room": 4}]
+    room4_doors = []
 
     # Define room items
     room1_items = []  
@@ -109,12 +145,14 @@ def load_rooms(obj_map):
                    dq_item(obj_map[items.UTENSILS.value], 1500, 1000),
                    dq_item(obj_map[items.BED_SHEETS.value], 100, 900)]
     room3_items = []
+    room4_items = []
 
     # Create the rooms
-    room1 = Room(1, room1_doors, room1_items, bg1, room1_collider, room1_spawn_positions)
-    room2 = Room(2, room2_doors, room2_items, bg2, room2_collider, room2_spawn_positions)
-    room3 = Room(3, room3_doors, room3_items, bg3, room3_collider, room3_spawn_positions)
+    room1 = Room(1, room1_doors, room1_items, bg1, room1_collider, room1_spawn_positions, inv)
+    room2 = Room(2, room2_doors, room2_items, bg2, room2_collider, room2_spawn_positions, inv)
+    room3 = Room(3, room3_doors, room3_items, bg3, room3_collider, room3_spawn_positions, inv)
+    room4 = Room(4, room4_doors, room4_items, bg4, room4_collider, room4_spawn_positions, inv)
     
 
     # Return rooms as a dictionary
-    return {1: room1, 2: room2, 3: room3}
+    return {1: room1, 2: room2, 3: room3, 4: room4}
