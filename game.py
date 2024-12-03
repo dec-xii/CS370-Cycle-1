@@ -40,7 +40,7 @@ class Game:
     # Initialize
     def start(self):
         pg.font.init()
-
+       
         pg.mixer.music.load("Sounds/background_music.wav")
         pg.mixer.music.play(-1, 0.0)
 

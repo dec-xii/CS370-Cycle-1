@@ -72,6 +72,9 @@ class Menu:
             Button("Quit", 860, 550, 200, 50, game_quit)
         ]
 
+        self.title_font = pygame.font.SysFont("Comic Sans", 200)
+        self.title_text = "Escaperesque"
+
     def start(self):
         self.game = game.Game()
         pygame.mixer.music.load("Sounds/background_music.wav")
@@ -93,7 +96,12 @@ class Menu:
     def render(self):
         background = pygame.image.load("CS370_Menu_Background.jpg")
         background = pygame.transform.scale(background, (1920, 1080)) 
-        screen.blit(background, (0, 0)) 
+        screen.blit(background, (0, 0))
+        #render title
+        title_surface = self.title_font.render(self.title_text, True, blue)
+        title_rect = title_surface.get_rect(center=(Width// 2, 200))
+        screen.blit(title_surface, title_rect)
+
         for button in self.buttons:
             button.draw(screen)
 
