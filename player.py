@@ -49,7 +49,7 @@ def player():
     with open("Entities/Player.json") as f:
         data = json.load(f)
         sprite = sprites.Sprite(
-            States.FRONT, data["file"], data["start"], data["size"], data["frame_data"], controller)
+            States.FRONT, data["file"], data["start"], data["size"], data["frame_data"], data["frame_rate"], controller)
 
     if "center" in data:
         sprite.rect.center = data["center"]

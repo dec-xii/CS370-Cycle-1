@@ -1,5 +1,6 @@
 {
-  "file": "Knight.png",
+  "file": "Assets/sprites/Knight.png",
+  "frame_rate": 6,
   "start": [
     0,
     0
@@ -17,21 +18,17 @@
   ],
   "points": [
     [
-      800,
-      800
-    ],
-    [
-      1000,
+      100,
       900
     ],
     [
-      100,
-      500
+      900,
+      900
     ]
   ],
   "scale": 5,
   "center": [
-    700,
-    800
+    100,
+    900
   ]
 }

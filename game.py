@@ -13,18 +13,26 @@ import hud
 fps = 60
 SCREENRECT = pg.Rect(0, 0, 1920, 1080)
 
+
 class Game:
     def __init__(self):
         pg.init()
 
         self.obj_map = []
-        self.obj_map.append (dq_object("cigarette",r'images/objects/cigarette.jpg',isUsable=True))
-        self.obj_map.append (dq_object("keys",r'images/objects/keys.jpg',isUsable=True))
-        self.obj_map.append (dq_object("toothbrush",r'images/objects/toothbrush.jpg',isUsable=True))
-        self.obj_map.append (dq_object("plastic utensils",r'images/objects/utensils.jpg',isUsable=True)) 
-        self.obj_map.append (dq_object("bedsheets",r'images/objects/bed sheets.jpg',isUsable=False))
-        self.obj_map.append (dq_object("lighter",r'images/objects/lighter.jpg',isUsable=True))
-        self.obj_map.append (dq_object("poster",r'images/objects/poster.jpg',isUsable=False))
+        self.obj_map.append(
+            dq_object("cigarette", r'Assets/objects/cigarette.jpg', isUsable=True))
+        self.obj_map.append(
+            dq_object("keys", r'Assets/objects/keys.jpg', isUsable=True))
+        self.obj_map.append(
+            dq_object("toothbrush", r'Assets/objects/toothbrush.jpg', isUsable=True))
+        self.obj_map.append(dq_object("plastic utensils",
+                            r'Assets/objects/utensils.jpg', isUsable=True))
+        self.obj_map.append(
+            dq_object("bedsheets", r'Assets/objects/bed sheets.jpg', isUsable=False))
+        self.obj_map.append(
+            dq_object("lighter", r'Assets/images/lighter.png', isUsable=True))
+        self.obj_map.append(
+            dq_object("poster", r'Assets/objects/poster.jpg', isUsable=False))
 
         self.running = False
         self.input = input.Input()
@@ -43,11 +51,10 @@ class Game:
 
         self.running = True
         self.player = player.player()
-        self.NPCs = [npcs.spawn()]
-        self.sprites = pg.sprite.RenderPlain(self.player, self.NPCs)
+        self.sprites = pg.sprite.RenderPlain(self.player)
 
         # Load background, this will be moved to Environment load function
-        self.bg = pg.image.load("CS370_Room_Art.png")
+        self.bg = pg.image.load("Assets/Rooms/CS370_Room_Art.png")
         self.bg = pg.transform.scale(self.bg, (1920, 1080))
 
         # Load rooms using the load_rooms function
@@ -88,7 +95,7 @@ class Game:
         self.player.update(self.deltaTime, self.input)
         # self.NPCs.update(self.deltaTime, self.input)
 
-        for npc in self.NPCs:
+        for npc in self.current_room.entites:
             npc.update(self.deltaTime, self.input)
             npc.interact(self.player, self.input)
 
@@ -108,12 +115,9 @@ class Game:
     def render(self):
         self.current_room.draw(self.screen)
         self.sprites.draw(self.screen)
-        for npc in self.NPCs:
-            npc.displayText(self.screen)
 
         self.player_hud.render(self.screen)
         pg.display.flip()
 
     def clean(self):
         pg.quit()
-
