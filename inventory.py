@@ -3,6 +3,7 @@ import dq_object as obj
 from dq_object import dq_item
 
 class inventory:
+
     def __init__(self, size):
         self.size=size
         self.item_list=[]

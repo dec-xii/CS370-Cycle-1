@@ -2,6 +2,7 @@ import pygame as pg
 from pygame import image
 from enum import Enum
 
+
 class items(Enum):
     CIGARETTE = 0
     KEYS = 1
@@ -10,6 +11,7 @@ class items(Enum):
     BED_SHEETS = 4
     LIGHTER = 5
     POSTER = 6
+
 
 class dq_object:
     def __init__(self, name, imagePath, width=50, height=50, isUsable=False):

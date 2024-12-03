@@ -13,17 +13,20 @@ class States(Enum):
 
 
 def pointToPoint(x, input):
+    halt = False
     # Update the target
-    if x.rect.center == x.points[x.target]:
+    if pg.Vector2(x.rect.center).distance_to(pg.Vector2(x.points[x.target])) < 10:
         if x.target == len(x.points) - 1:
-            x.target = 0
+            x.set_state(States.IDLE)
+            halt = True
         else:
             x.target += 1
 
-    # Move towards the current target
-    x.rect.center = pg.math.Vector2.move_towards(
-        pg.Vector2(x.rect.center), x.points[x.target], 5)
-    x.set_state(x.animation[x.target])
+    if not halt:
+        # Move towards the current target
+        x.rect.center = pg.math.Vector2.move_towards(
+            pg.Vector2(x.rect.center), x.points[x.target], 5)
+        x.set_state(x.animation[x.target])
 
     return x
 
@@ -34,9 +37,9 @@ def action(self):
 
 
 class NPC(sprites.Sprite):
-    def __init__(self, state, sheet, start, size, columns, points, animations, action):
+    def __init__(self, state, sheet, start, size, columns, points, frame_rate, animations, action):
         sprites.Sprite.__init__(self, state, sheet, start,
-                                size, columns, pointToPoint)
+                                size, columns, frame_rate, pointToPoint)
 
         self.points = points
         self.action = action
@@ -69,7 +72,7 @@ class NPC(sprites.Sprite):
 
 def spawn():
     # Load the anima     for each point
-    animations = [States.IDLE]
+    animations = [States.WALK, States.WALK]
 
     # Iterate over the NPC files and laod each into a sprite
     for file in os.listdir("Entities"):
@@ -78,7 +81,7 @@ def spawn():
                 data = json.load(f)
                 sprite = NPC(
                     States.IDLE, data["file"], data["start"], data["size"],
-                    data["frame_data"], data["points"], animations, action)
+                    data["frame_data"], data["points"], data["frame_rate"], animations, action)
 
     #  Set the starting location
     if "center" in data:
