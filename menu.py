@@ -2,6 +2,8 @@ import pygame
 import sys
 import game  
 
+pygame.mixer.init()
+
 pygame.init()
 
 # display
@@ -51,10 +53,12 @@ class Button:
 
 # starting the game
 def game_start(menu):
+    pygame.mixer.music.stop()
     menu.running = False  
     menu.start_game = True  
 
 def game_quit():
+    pygame.mixer.music.stop()
     pygame.quit()
     sys.exit()
 
@@ -69,7 +73,9 @@ class Menu:
         ]
 
     def start(self):
-        self.game = game.Game()  
+        self.game = game.Game()
+        pygame.mixer.music.load("Sounds/background_music.wav")
+        pygame.mixer.music.play(-1, 0.0)  
 
     def event(self):
         for event in pygame.event.get():

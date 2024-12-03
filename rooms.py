@@ -3,6 +3,9 @@ import pygame as pg
 from player import controller
 from dq_object import dq_item, items
 
+pg.mixer.init()
+DOOR_OPENING = pg.mixer.Sound("Sounds/door-opening.wav")
+
 ACCEL = 3
 class Room:
     def __init__(self, room_id, doors, items, backgrounds, collider_rect, spawn_positions):
@@ -33,6 +36,8 @@ class Room:
         # Check if the player collides with any door
         for door in self.doors:
             if player_rect.colliderect(door["rect"]):
+
+                DOOR_OPENING.play()
                     
                 # Change the door's color to green when collided
                 door["color"] = "green"

@@ -1,6 +1,9 @@
 from game import Game
 from menu import Menu
 
+
+
+
 g = Game()  
 m = Menu()  
 
@@ -19,8 +22,9 @@ while True:
             g.event()
             g.update()
             g.render()
-
+        
         g.clean()
+        
 
     elif m.quit:
         m.running = False

@@ -41,6 +41,10 @@ class Game:
     def start(self):
         pg.font.init()
 
+        pg.mixer.music.load("Sounds/background_music.wav")
+        pg.mixer.music.play(-1, 0.0)
+
+       
         self.running = True
         self.player = player.player()
         self.NPCs = [npcs.spawn()]
@@ -115,4 +119,5 @@ class Game:
         pg.display.flip()
 
     def clean(self):
+        pg.mixer.music.stop()
         pg.quit()
