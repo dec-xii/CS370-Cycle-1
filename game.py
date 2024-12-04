@@ -99,7 +99,7 @@ class Game:
 
         for npc in self.current_room.entites:
             npc.update(self.deltaTime, self.input)
-            npc.interact(self.player, self.input)
+            npc.interact(self.player, self.input, self.player_inventory)
 
         # Player's hitbox for collision detection
         player_rect = self.player.rect.copy()  # Get the player's rectangle

@@ -197,7 +197,7 @@ def load_rooms(obj_map, inv):
     room2 = Room(2, room2_doors, room2_items, bg2, room2_collider,
                  room2_spawn_positions, inv, [], room2_sLights)
     room3 = Room(3, room3_doors, room3_items, bg3, room3_collider,
-                 room3_spawn_positions, inv, [npcs.spawn()], room3_sLights)
+                 room3_spawn_positions, inv, [], room3_sLights)
     room4 = Room(4, room4_doors, room4_items, bg4, room4_collider,
                  room4_spawn_positions, inv, [], room4_sLights)
     room5 = Room(5, room5_doors, room5_items, bg5, room5_collider,

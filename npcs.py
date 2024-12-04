@@ -33,8 +33,8 @@ def pointToPoint(x, input):
 
 
 # The action performed once the player interacts with an NPC
-def action(self):
-    self.dialog.update()
+def action(self, inv):
+    self.dialog.update(inv)
 
 
 class NPC(sprites.Sprite):
@@ -58,14 +58,14 @@ class NPC(sprites.Sprite):
             self.next_frame(deltaTime)
 
     # Handles NPC-Player interactions
-    def interact(self, player, input):
+    def interact(self, player, input, inv):
         self.dialog.visable = False
         # Detect the players's distance from the NPC
         if pg.Vector2(player.rect.center).distance_to(pg.Vector2(self.rect.center)) < self.radius:
             self.image.fill("yellow", special_flags=pg.BLEND_RGBA_MIN)
             self.dialog.visable = True
             if input.mouseUp(0) and self.rect.collidepoint(input.mouse_pos):
-                self.action(self)
+                self.action(self, inv)
 
     def displayText(self, screen):
         self.dialog.display(self.rect.move(-10, 0), screen)
