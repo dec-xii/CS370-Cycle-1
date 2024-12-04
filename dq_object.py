@@ -1,6 +1,8 @@
 import pygame as pg
 from pygame import image
 from enum import Enum
+import os
+from constants import MAIN_PATH
 
 
 class items(Enum):
@@ -16,7 +18,7 @@ class items(Enum):
 class dq_object:
     def __init__(self, name, imagePath, width=50, height=50, isUsable=False):
         self.image = pg.transform.scale(
-            pg.image.load(imagePath), (width, height))
+            pg.image.load(os.path.join(MAIN_PATH, imagePath)), (width, height))
         self.name = name
 
 

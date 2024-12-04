@@ -2,6 +2,8 @@ import pygame as pg
 import json
 from enum import Enum
 import sprites
+import os
+from constants import MAIN_PATH
 
 ACCEL = 3
 FRICTION = 0.7
@@ -46,8 +48,10 @@ def controller(x, input):
 
 
 def player():
-    with open("Entities/Player.json") as f:
+    player_path = os.path.join(MAIN_PATH, "Entities/Player.json")
+    with open(player_path) as f:
         data = json.load(f)
+        print(player_path)
         sprite = sprites.Sprite(
             States.FRONT, data["file"], data["start"], data["size"], data["frame_data"], data["frame_rate"], controller)
 

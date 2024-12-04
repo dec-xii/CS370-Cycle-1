@@ -3,6 +3,8 @@ import pygame as pg
 import npcs
 from player import controller
 from dq_object import dq_item, items
+import os
+from constants import MAIN_PATH
 
 ACCEL = 3
 
@@ -79,13 +81,15 @@ def load_rooms(obj_map):
     room1_doors = [{"rect": pg.Rect(
         830, 500, 250, 300), "target_room": 2}]
 
-    bg1 = pg.image.load("Assets/Rooms/CS370_Room_Art.png")
+    bg1 = pg.image.load(os.path.join(
+        MAIN_PATH, "Assets/Rooms/CS370_Room_Art.png"))
     bg1 = pg.transform.scale(bg1, (1920, 1080))
 
-    bg2 = pg.image.load("Assets/Rooms/CS370_Room_Art2.png")
+    bg2 = pg.image.load(os.path.join(
+        MAIN_PATH, "Assets/Rooms/CS370_Room_Art2.png"))
     bg2 = pg.transform.scale(bg2, (1920, 1080))
 
-    bg3 = pg.image.load("Assets/Rooms/CafeArt.png")
+    bg3 = pg.image.load(os.path.join(MAIN_PATH, "Assets/Rooms/CafeArt.png"))
     bg3 = pg.transform.scale(bg3, (1920, 1080))
 
     room1_collider = pg.Rect(100, 700, 1720, 300)

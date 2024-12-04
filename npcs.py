@@ -4,6 +4,7 @@ import json
 from enum import Enum
 import sprites
 import dialog
+from constants import MAIN_PATH
 
 
 class States(Enum):
@@ -74,10 +75,12 @@ def spawn():
     # Load the anima     for each point
     animations = [States.WALK, States.WALK]
 
+    entities_path = os.path.join(MAIN_PATH, "Entities")
+
     # Iterate over the NPC files and laod each into a sprite
-    for file in os.listdir("Entities"):
+    for file in os.listdir(entities_path):
         if file != "Player.json":
-            with open("Entities/" + file) as f:
+            with open(os.path.join(entities_path, file)) as f:
                 data = json.load(f)
                 sprite = NPC(
                     States.IDLE, data["file"], data["start"], data["size"],
