@@ -1,6 +1,8 @@
 import pygame
 import sys
-import game  
+import game
+import os
+from constants import MAIN_PATH
 
 pygame.mixer.init()
 
@@ -14,14 +16,13 @@ pygame.display.set_caption("Main Menu")
 
 # colors
 blue = (0, 0, 255)
-green = (0, 255, 0)  
-red = (255, 0 , 0)
-white = (255, 255, 255)  
-black = (0,0,0)
+green = (0, 255, 0)
+red = (255, 0, 0)
+white = (255, 255, 255)
+black = (0, 0, 0)
 
 menu_state = "menu"
 game_start = True
-
 
 
 # button class
@@ -31,8 +32,8 @@ class Button:
         self.text = text
         self.rect = pygame.Rect(x, y, width, height)
         self.font = pygame.font.SysFont(None, 40)
-        self.color = red  
-        self.hover_color = green  
+        self.color = red
+        self.hover_color = green
         self.press = press
 
     def draw(self, place):
@@ -52,10 +53,13 @@ class Button:
             self.press()
 
 # starting the game
+
+
 def game_start(menu):
     pygame.mixer.music.stop()
-    menu.running = False  
-    menu.start_game = True  
+    menu.running = False
+    menu.start_game = True
+
 
 def game_quit():
     pygame.mixer.music.stop()
@@ -63,10 +67,12 @@ def game_quit():
     sys.exit()
 
 # menu class
+
+
 class Menu:
     def __init__(self):
-        self.running = True  
-        self.start_game = False  
+        self.running = True
+        self.start_game = False
         self.buttons = [
             Button("Start", 860, 450, 200, 50, lambda: game_start(self)),
             Button("Quit", 860, 550, 200, 50, game_quit)
@@ -77,8 +83,9 @@ class Menu:
 
     def start(self):
         self.game = game.Game()
-        pygame.mixer.music.load("Sounds/background_music.wav")
-        pygame.mixer.music.play(-1, 0.0)  
+        pygame.mixer.music.load(os.path.join(
+            MAIN_PATH, "Sounds/background_music.wav"))
+        pygame.mixer.music.play(-1, 0.0)
 
     def event(self):
         for event in pygame.event.get():
@@ -89,25 +96,25 @@ class Menu:
                     button.click()
 
     def update(self):
-        
+
         if self.start_game:
             game_start(self)
 
     def render(self):
-        background = pygame.image.load("CS370_Menu_Background.jpg")
-        background = pygame.transform.scale(background, (1920, 1080)) 
+        background = pygame.image.load(os.path.join(
+            MAIN_PATH, "CS370_Menu_Background.jpg"))
+        background = pygame.transform.scale(background, (1920, 1080))
         screen.blit(background, (0, 0))
-        #render title
+        # render title
         title_surface = self.title_font.render(self.title_text, True, blue)
-        title_rect = title_surface.get_rect(center=(Width// 2, 200))
+        title_rect = title_surface.get_rect(center=(Width // 2, 200))
         screen.blit(title_surface, title_rect)
 
         for button in self.buttons:
             button.draw(screen)
 
-            #update screen
-        pygame.display.flip()  
+            # update screen
+        pygame.display.flip()
 
     def clean(self):
         pygame.quit()
-

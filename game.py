@@ -5,6 +5,8 @@ from rooms import load_rooms
 import inventory as inv
 from dq_object import dq_object
 import hud
+import os
+from constants import MAIN_PATH
 
 fps = 60
 SCREENRECT = pg.Rect(0, 0, 1920, 1080)
@@ -45,7 +47,8 @@ class Game:
     def start(self):
         pg.font.init()
 
-        pg.mixer.music.load("Sounds/background_music.wav")
+        pg.mixer.music.load(os.path.join(
+            MAIN_PATH, "Sounds/background_music.wav"))
         pg.mixer.music.play(-1, 0.0)
 
         self.running = True
@@ -53,7 +56,8 @@ class Game:
         self.sprites = pg.sprite.RenderPlain(self.player)
 
         # Load background, this will be moved to Environment load function
-        self.bg = pg.image.load("Assets/Rooms/CS370_Room_Art.png")
+        self.bg = pg.image.load(os.path.join(
+            MAIN_PATH, os.path.join(MAIN_PATH, "Assets/Rooms/CS370_Room_Art.png")))
         self.bg = pg.transform.scale(self.bg, (1920, 1080))
 
         # Load rooms using the load_rooms function
@@ -92,7 +96,6 @@ class Game:
     def update(self):
         self.deltaTime = self.clock.tick(fps) / 1000
         self.player.update(self.deltaTime, self.input)
-        # self.NPCs.update(self.deltaTime, self.input)
 
         for npc in self.current_room.entites:
             npc.update(self.deltaTime, self.input)

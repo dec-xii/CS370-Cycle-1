@@ -4,9 +4,12 @@ import npcs
 from player import controller
 from dq_object import dq_item, items
 import SpotLight as sl
+from constants import MAIN_PATH
+import os
 
 pg.mixer.init()
-DOOR_OPENING = pg.mixer.Sound("Sounds/door-opening.wav")
+DOOR_OPENING = pg.mixer.Sound(os.path.join(
+    MAIN_PATH, "Sounds/door-opening.wav"))
 
 ACCEL = 3
 
@@ -126,19 +129,21 @@ def load_rooms(obj_map, inv):
     room1_doors = [{"rect": pg.Rect(
         830, 500, 250, 300), "target_room": 2}]
 
-    bg1 = pg.image.load(r'Assets/Rooms/CS370_Room_Art.png')
+    bg1 = pg.image.load(os.path.join(
+        MAIN_PATH, "Assets/Rooms/CS370_Room_Art.png"))
     bg1 = pg.transform.scale(bg1, (1920, 1080))
 
-    bg2 = pg.image.load(r'Assets/Rooms/CS370_Room_Art2.png')
+    bg2 = pg.image.load(os.path.join(
+        MAIN_PATH, "Assets/Rooms/CS370_Room_Art2.png"))
     bg2 = pg.transform.scale(bg2, (1920, 1080))
 
-    bg3 = pg.image.load(r'Assets/Rooms/CafeArt.png')
+    bg3 = pg.image.load(os.path.join(MAIN_PATH, "Assets/Rooms/CafeArt.png"))
     bg3 = pg.transform.scale(bg3, (1920, 1080))
 
-    bg4 = pg.image.load(r'Assets/objects/gameover.png')
+    bg4 = pg.image.load(os.path.join(MAIN_PATH, "Assets/objects/gameover.png"))
     bg4 = pg.transform.scale(bg4, (1920, 1080))
 
-    bg5 = pg.image.load(r'Assets/objects/died.png')
+    bg5 = pg.image.load(os.path.join(MAIN_PATH, "Assets/objects/died.png"))
     bg5 = pg.transform.scale(bg5, (1920, 1080))
 
     room1_collider = pg.Rect(100, 700, 1720, 300)
