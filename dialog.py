@@ -32,9 +32,9 @@ class Dialog():
             self.text[self.index], False, (255, 255, 255))
 
     def display(self, pos, screen):
-        # subsurface = self.text_surface.subsurface(UI_RECT.normalize())
-        # self.text_surface.scroll(-1)
+        self.text_surface.scroll(-2)
+        subsurface = UI_RECT.copy()
+        subsurface.update((0, 0), subsurface.size)
 
-        pg.draw.rect(screen, "green", UI_RECT)
-        screen.blit(self.text_surface, UI_RECT.topleft)
-        # screen.blit(subsurface, UI_RECT.topleft)
+        pg.draw.rect(screen, "grey", UI_RECT)
+        screen.blit(self.text_surface, UI_RECT, subsurface)
