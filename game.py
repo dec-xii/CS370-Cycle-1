@@ -1,13 +1,9 @@
 import pygame as pg
 import input
 import player
-import npcs
-from player import States
 from rooms import load_rooms
-from animation_tests import Tests
 import inventory as inv
-import dq_object
-from dq_object import items, dq_object
+from dq_object import dq_object
 import hud
 
 fps = 60
@@ -48,6 +44,9 @@ class Game:
     # Initialize
     def start(self):
         pg.font.init()
+
+        pg.mixer.music.load("Sounds/background_music.wav")
+        pg.mixer.music.play(-1, 0.0)
 
         self.running = True
         self.player = player.player()
@@ -116,8 +115,10 @@ class Game:
         self.current_room.draw(self.screen)
         self.sprites.draw(self.screen)
 
-        self.player_hud.render(self.screen, self.player_inventory.get_item_list())
+        self.player_hud.render(
+            self.screen, self.player_inventory.get_item_list())
         pg.display.flip()
 
     def clean(self):
+        pg.mixer.music.stop()
         pg.quit()
