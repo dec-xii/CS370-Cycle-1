@@ -53,7 +53,7 @@ def player():
         data = json.load(f)
         print(player_path)
         sprite = sprites.Sprite(
-            States.FRONT, data["file"], data["start"], data["size"], data["frame_data"], data["frame_rate"], controller)
+            States.FRONT, os.path.join(MAIN_PATH, data["file"]), data["start"], data["size"], data["frame_data"], data["frame_rate"], controller)
 
     if "center" in data:
         sprite.rect.center = data["center"]

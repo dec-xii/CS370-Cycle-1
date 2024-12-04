@@ -83,7 +83,8 @@ def spawn():
             with open(os.path.join(entities_path, file)) as f:
                 data = json.load(f)
                 sprite = NPC(
-                    States.IDLE, data["file"], data["start"], data["size"],
+                    States.IDLE, os.path.join(
+                        MAIN_PATH, data["file"]), data["start"], data["size"],
                     data["frame_data"], data["points"], data["frame_rate"], animations, action)
 
     #  Set the starting location
