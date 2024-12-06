@@ -1,21 +1,24 @@
-# CS370 Cycle 1
+# CS370
 
-Collaborative repository for CS370 - Software Engineering's Cycle 1
+Collaborative repository for CS370 - Software Engineering's
 
 ## Requirements 
 1. Git
 2. Python 3
+3. PyGame
+4. PyInstaller
 
 ## Installation
 
-1. Install Pygame using the instructions on [https://www.pygame.org/wiki/GettingStarted]
-2. Run: 
+1. Install PyGame using the instructions on [https://www.pygame.org/wiki/GettingStarted]
+2. Install PyInstaller using the quick start guide on [https://pyinstaller.org/en/stable]
+3. Run: 
 ```bash 
-git clone https://github.com/dec-xii/Architecture-Spike.git 
-cd Architecture-Spike
-python test.py
+git clone https://github.com/dec-xii/CS370-Cycle-1.git
+cd CS370-Cycle-1
+python install.py
 ```
-
+4. The final executable should be located under 'dist/Dangeresque'
 
 ## Authors
 

@@ -11,5 +11,5 @@ PyInstaller.__main__.run([
     '--add-data=Assets/sprites/*:Assets/sprites',
     '--add-data=Entities/*.json:Entities',
     '--add-data=Sounds/*:Sounds',
-    '-nDangeresque_' + platform.system()
+    '-nDangeresque'
 ])
