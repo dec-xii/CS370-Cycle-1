@@ -102,7 +102,7 @@ class Menu:
 
     def render(self):
         background = pygame.image.load(os.path.join(
-            MAIN_PATH, "CS370_Menu_Background.jpg"))
+            MAIN_PATH, "Assets/images/CS370_Menu_Background.jpg"))
         background = pygame.transform.scale(background, (1920, 1080))
         screen.blit(background, (0, 0))
         # render title
