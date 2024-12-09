@@ -20,6 +20,13 @@ python install.py
 ```
 4. The final executable should be located under 'dist/Dangeresque'
 
+## Controls
+
+- WASD to move
+- ESC to quit
+- F for fullscreen
+- Left click to interact with NPCs
+
 ## Authors
 
 - [Abel Getachew](mailto:getacha@sunypoly.edu)
